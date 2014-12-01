@@ -1,0 +1,32 @@
+
+
+body {
+  background: #fcfcfa;
+}
+
+.sphereStroke {
+  fill: none;
+  stroke: rgb(150, 162, 200);
+  stroke-width: 3px;
+}
+
+.sphereFill {
+  fill: rgb(200, 212, 250);
+}
+
+.graticule {
+  fill: none;
+  stroke: rgb(100, 100, 100);
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.landBody {
+  fill: rgb(240, 240, 240);
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
