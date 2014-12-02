@@ -1,0 +1,35 @@
+body {
+	color: #221814;
+	font-family: "Trebuchet MS";
+	background-image:url(http://i.imgur.com/PKscn22.jpg?1);
+	background-size:100% auto;
+}
+header  {
+	float:left;
+	height:100%;
+	width:450px;
+	background-color: #d3d3d3;
+	padding: 8px;
+	opacity: .75;
+	box-shadow: 5px 5px 5px #2B2827;
+	border-radius: 10px;
+	display: inline;
+}	
+#proceed {
+	position: relative;
+	left:30px;
+	float:left;
+	background-color: #d3d3d3;
+	opacity: .75;
+	box-shadow: 5px 5px 5px #2B2827;
+	border-radius: 10px;
+	padding: 2px 3px;
+}
+#proceed:hover {
+	box-shadow: 5px 5px 5px #ffffff;
+    transition-property: background-color, color;
+    transition-duration: 1s;
+    transition-timing-function: ease-out;
+    background-color:white;
+    color:black;
+}	
