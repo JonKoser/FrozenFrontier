@@ -63,8 +63,12 @@ div {
     stroke-width: .5px;
 }
 
+.lines {
+    fill:none;
+}
+
 #title {
-    color: rgb(200, 212, 250);
+    color: rgb(59, 152, 204);
     margin-top: 5px;
     margin-left: 5px;
 }
