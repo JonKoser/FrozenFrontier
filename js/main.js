@@ -1,3 +1,6 @@
+//global variables
+var currentYear = 1903;
+
 //begin script when window loads
 window.onload = initialize();
 
@@ -9,23 +12,26 @@ function initialize() {
 //set choropleth map parameters
 function setMap () {
 
-  var mapWidth = 960,
-      mapHeight = 960;
+    var mapWidth = 600,
+      mapHeight = 600;
+    
+    var mapContainer = d3.select("body")
+            .append("div")
+            .attr("class", "mapContainer");
     
     //create a new svg element with the above dimensions
-    var map = d3.select("body")
+    var map = d3.select(".mapContainer")
             .append("svg")
             .attr("class", "map")
             .attr("width", mapWidth)
             .attr("height", mapHeight);
 
-
-  var projection = d3.geo.orthographic()
-      .scale(475)
-      .rotate([0, -90, 0])
-      .translate([mapWidth / 2, mapHeight / 2])
-      .clipAngle(90)
-      .precision(.1);
+    var projection = d3.geo.orthographic()
+            .scale(500)
+            .rotate([0, -90, 0])
+            .translate([mapWidth / 2, mapHeight / 2])
+            .clipAngle(90)
+            .precision(.1);
         
     //creat svg path generator using the projection
     var path = d3.geo.path()
@@ -33,7 +39,7 @@ function setMap () {
     
     //create graticule generator
     var graticule = d3.geo.graticule()
-            .step([10, 10]); //place graticule lines every 5 degrees
+            //.step([10, 10]); //place graticule lines every 10 degrees
 
     //define a sphere object for the globe map
     map.append("defs").append("path")
@@ -74,8 +80,16 @@ function setMap () {
                 .append("path")
                 .attr("class", "landBody")
                 .attr("d", path); //project data as geometry in svg
-        
+    
+        displayYear();
     };//end callback
+    
+};// end setMap
 
-}// end setMap
+function displayYear() {
+    var mapContainer = d3.select(".mapContainer");
+    mapContainer.append("text")
+        .attr("class", "displayYear")
+        .text(currentYear);
+}//end display year
 

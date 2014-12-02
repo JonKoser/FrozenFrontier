@@ -1,32 +1,74 @@
-
-
 body {
-  background: #fcfcfa;
+  background: rgb(50, 50, 50);
+}
+
+div {
+    border: 1px solid;
+    border-color: black;
+    background-color: rgb(30, 30, 30);
+    border-radius: 10px
+}
+
+.mapContainer {
+    position: relative;
+    margin: 5px;
+    width: 620px;
+    height: 620px;
+}
+
+.map {
+    display: block;
+    margin: auto;
+    margin-top: 6px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    border-color: rgb(140, 152, 200);
+}
+
+.displayYear {
+    font-size: 36pt;
+    color: rgb(240, 240, 240);
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    
+
 }
 
 .sphereStroke {
-  fill: none;
-  stroke: rgb(150, 162, 200);
-  stroke-width: 3px;
+    fill: none;
+    stroke: rgb(150, 162, 200);
+    stroke-width: 3px;
 }
 
 .sphereFill {
-  fill: rgb(200, 212, 250);
+    fill: rgb(200, 212, 250);
 }
 
 .graticule {
-  fill: none;
-  stroke: rgb(100, 100, 100);
-  stroke-width: .5px;
-  stroke-opacity: .5;
+    fill: none;
+    stroke: rgb(100, 100, 100);
+    stroke-width: .5px;
+    stroke-opacity: .5;
 }
 
 .landBody {
-  fill: rgb(240, 240, 240);
+    fill: rgb(240, 240, 240);
+    stroke: rgb(100, 100, 100);
 }
 
 .boundary {
-  fill: none;
-  stroke: #fff;
-  stroke-width: .5px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: .5px;
+}
+
+#title {
+    color: rgb(200, 212, 250);
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#titleContainer {
+    height: 45px;
 }
