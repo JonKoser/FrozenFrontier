@@ -1,5 +1,5 @@
 //global variables
-var currentYear = 1906;
+var currentYear = 1925;
 
 //begin script when window loads
 window.onload = initialize();
@@ -70,7 +70,7 @@ function setMap () {
     
     //use queue.js to parallelise asynchronous data loading
     queue()
-        .defer(d3.json, "data/landOutline.topojson") //load attributes from csv
+        .defer(d3.json, "data/landOutline.topojson") //load attributes from topojson
         .defer(d3.json, "data/Test_Lines.topojson")
         .await(callback); //trigger callback function once data is loaded
    
@@ -122,7 +122,10 @@ function updateLines() {
     var lines = d3.selectAll(".lines")
             .style("stroke", function (d) {
                 if (d.properties.Year == currentYear) {
-                    return "black";
+                    if (d.properties.Country == "Canada") {
+                        return "blue";
+                    }
+                    else {return "purple"};
                 }
                 else {
                     return "none";
