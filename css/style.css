@@ -9,9 +9,17 @@ div {
     border-radius: 10px
 }
 
+.infoPanelBox {
+    position: absolute;
+    margin-top: 5px;
+    width: 250px;
+    height: 620px;
+}
+
 .mapContainer {
     position: relative;
-    margin: 5px;
+    top: 5px;
+    left: 260px;
     width: 620px;
     height: 620px;
 }

@@ -15,6 +15,10 @@ function setMap () {
     var mapWidth = 600,
       mapHeight = 600;
     
+    var infoPanelBox = d3.select("body")
+            .append("div")
+            .attr("class", "infoPanelBox");
+    
     var mapContainer = d3.select("body")
             .append("div")
             .attr("class", "mapContainer");
