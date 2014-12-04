@@ -1,5 +1,5 @@
 //global variables
-var currentYear = 1925;
+var currentYear = 1906;
 
 //begin script when window loads
 window.onload = initialize();
@@ -15,9 +15,17 @@ function setMap () {
     var mapWidth = 600,
       mapHeight = 600;
     
+    var timelineBox = d3.select("body")
+            .append("div")
+            .attr("class", "timelineBox");
+    
+    makeTimeline(timelineBox);
+    
     var infoPanelBox = d3.select("body")
             .append("div")
             .attr("class", "infoPanelBox");
+    
+    makeInfoPanel(infoPanelBox);
     
     var mapContainer = d3.select("body")
             .append("div")
@@ -124,17 +132,66 @@ function updateYear() {
 //based on the year
 function updateLines() {
     var lines = d3.selectAll(".lines")
-            .style("stroke", function (d) {
+            .style("stroke", function (d) {                  
                 if (d.properties.Year == currentYear) {
-                    if (d.properties.Country == "Canada") {
-                        return "blue";
-                    }
-                    else {return "purple"};
+                    switch (d.properties.Country) {
+                            case "Canada":
+                                return "yellow";
+                                break;
+                            case "Russia":
+                                return "red";
+                                break;
+                            case "Norway":
+                                return "blue";
+                                break;
+                            case "Denmark":
+                                return "black";
+                                return;
+                            case "United States":
+                                return "green";
+                                break;
+                            case "Norway, Russia":
+                                return "purple";
+                                break;
+                            case "USSR":
+                                return "red";
+                                break;
+                            default:
+                                return "turquois";
+                    } //end switch statement
+                    
                 }
-                else {
+                else { //if not the current year
                     return "none";
                 }
              });
     
 }; //end update lines
+
+
+function makeTimeline (timelineBox){
+    
+    //var axesScale = d3.scale.linear()
+    //        .domain([5, 875])
+    //        .range([1903, 2014]);
+    
+    
+    console.log("Yerp");
+    var timeline = timelineBox.append("svg")
+            .attr("class", "axis")
+            .append("line")
+            .attr("x1", 5)
+            .attr("y1", 50)
+            .attr("x2", 875)
+            .attr("y2", 50)
+            .attr("stroke-width", 2)
+            .attr("stroke", "white");
+    
+    
+}; //end make timeline
+
+function makeInfoPanel (infoPanelBox) {
+    console.log("hyup");
+
+}; //end make info panel box
 

@@ -9,6 +9,19 @@ div {
     border-radius: 10px
 }
 
+.timelineBox {
+    margin-top: 5px;
+    width: 880px;
+    height: 150px;
+    
+}
+
+.axis {
+    width: 880px;
+    height: 100px;
+}
+
+
 .infoPanelBox {
     position: absolute;
     margin-top: 5px;
@@ -83,4 +96,5 @@ div {
 
 #titleContainer {
     height: 45px;
+    width: 880px;
 }
