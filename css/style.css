@@ -4,21 +4,34 @@ body {
 
 div {
     border: 1px solid;
-    border-color: black;
+    border-color: rgb(100, 100, 100);
     background-color: rgb(30, 30, 30);
     border-radius: 10px
 }
 
 .timelineBox {
     margin-top: 5px;
-    width: 880px;
+    width: 980px;
     height: 150px;
     
 }
 
-.axis {
-    width: 880px;
-    height: 100px;
+.timeline{
+    position: static;
+    width: 950px;
+    top: 50px;
+}
+
+.domain {
+
+    stroke: rgb(240, 240, 240);
+    stroke-width: 2px;
+    fill: none;
+}
+
+.axis text {
+    font-size: 11pt;
+    fill: rgb(240, 240, 240);
 }
 
 
@@ -26,15 +39,15 @@ div {
     position: absolute;
     margin-top: 5px;
     width: 250px;
-    height: 620px;
+    height: 720px;
 }
 
 .mapContainer {
     position: relative;
     top: 5px;
     left: 260px;
-    width: 620px;
-    height: 620px;
+    width: 720px;
+    height: 720px;
 }
 
 .map {
@@ -52,8 +65,6 @@ div {
     position: absolute;
     right: 20px;
     top: 10px;
-    
-
 }
 
 .sphereStroke {
@@ -96,5 +107,5 @@ div {
 
 #titleContainer {
     height: 45px;
-    width: 880px;
+    width: 980px;
 }

@@ -12,14 +12,14 @@ function initialize() {
 //set choropleth map parameters
 function setMap () {
 
-    var mapWidth = 600,
-      mapHeight = 600;
+    var mapWidth = 700,
+      mapHeight = 700;
     
     var timelineBox = d3.select("body")
             .append("div")
             .attr("class", "timelineBox");
     
-    makeTimeline(timelineBox);
+
     
     var infoPanelBox = d3.select("body")
             .append("div")
@@ -113,6 +113,10 @@ function setMap () {
                 .on("mouseover", function() {console.log("over")});
         
         
+        var yearArray = [];
+        
+        
+        makeTimeline(timelineBox);
         updateLines();
     };//end callback
     
@@ -171,21 +175,39 @@ function updateLines() {
 
 function makeTimeline (timelineBox){
     
-    //var axesScale = d3.scale.linear()
-    //        .domain([5, 875])
-    //        .range([1903, 2014]);
+    //if we wanted to add in months for this stuff, we could I guess
+    //var axisScale = d3.time.scale()
+    //        .domain([new Date(1903, 0, 1), new Date(2014, 0, 1)])
+    //        .range([0, 875]);
     
+    //create a slider using http://bl.ocks.org/mbostock/6452972
+    //which is a built-in brush slider for d3
+    
+    var axisScale = d3.scale.linear()
+            .domain([1903, 2014])
+            .range([0, 950]);
+    
+    var axis = d3.svg.axis()
+            .scale(axisScale)
+            .tickValues([1903,2014])
+            .tickFormat(d3.format("d"))
+            .orient("bottom");
+    
+    var timeline = timelineBox.append("svg")
+            .attr("width", 980)
+            .attr("height", 100)
+        .append("g")
+            .attr("transform", "translate("+15+", "+20+")")
+            .attr("class", "axis")
+            .call(axis)
+        .selectAll("text")
+            .attr("y", 0)   
+            .attr("x", 10)
+            .attr("dy", ".35em")
+            .attr("transform", "rotate(90)")
+            .style("text-anchor", "start");
     
     console.log("Yerp");
-    var timeline = timelineBox.append("svg")
-            .attr("class", "axis")
-            .append("line")
-            .attr("x1", 5)
-            .attr("y1", 50)
-            .attr("x2", 875)
-            .attr("y2", 50)
-            .attr("stroke-width", 2)
-            .attr("stroke", "white");
     
     
 }; //end make timeline
