@@ -16,18 +16,36 @@ div {
     
 }
 
+.axis .domain {
+  fill: none;
+  stroke: rgb(240, 240, 240);
+  stroke-opacity: 1;
+  stroke-width: 3px;
+  stroke-linecap: round;
+}
+
+.axis .halo {
+  fill: none;
+  stroke: #ddd;
+  stroke-width: 8px;
+  stroke-linecap: round;
+}
+
+.slider .handle {
+  fill: rgb(240, 240, 240);
+  stroke: black;
+  stroke-opacity: .5;
+  stroke-width: 1.25px;
+  cursor: pointer;
+}
+
+
 .timeline{
     position: static;
     width: 950px;
     top: 50px;
 }
 
-.domain {
-
-    stroke: rgb(240, 240, 240);
-    stroke-width: 2px;
-    fill: none;
-}
 
 .axis text {
     font-size: 11pt;

@@ -1,6 +1,7 @@
 //global variables
 var currentYear = 1906;
 
+
 //begin script when window loads
 window.onload = initialize();
 
@@ -198,32 +199,98 @@ function makeTimeline (timelineBox){
     //create a slider using http://bl.ocks.org/mbostock/6452972
     //which is a built-in brush slider for d3
     
+    //sets up a scale for a data
     var axisScale = d3.scale.linear()
-            .domain([1903, 2014])
-            .range([0, 950]);
+            .domain([1903, 2014]) //range of years
+            .range([0, 950]) //range of usable pixel space
+            .clamp(true); //has to be within domain
     
-    var axis = d3.svg.axis()
+    //set up the brush controler
+    var brush = d3.svg.brush()
+            .x(axisScale)
+            .extent([0, 0])
+            .on("brush", brushed) //what happens when it is brushed
+            .on("brushend", brushend); //what happens when it's done being brushed
+    
+    //sets up the axis the timeline will run along
+    var axisSpecs = d3.svg.axis()
             .scale(axisScale)
-            .tickValues([1903,2014])
+            .tickValues([1903, 1918, 1941, 1956, 1974, 1992, 2010, 2014])
             .tickFormat(d3.format("d"))
-            .orient("bottom");
+            .orient("top");
     
+    //creates the timeline
     var timeline = timelineBox.append("svg")
             .attr("width", 980)
             .attr("height", 100)
         .append("g")
-            .attr("transform", "translate("+15+", "+20+")")
+            .attr("transform", "translate("+15+", "+25+")")
             .attr("class", "axis")
-            .call(axis)
-        .selectAll("text")
-            .attr("y", 0)   
-            .attr("x", 10)
-            .attr("dy", ".35em")
-            .attr("transform", "rotate(90)")
-            .style("text-anchor", "start");
+            .call(axisSpecs)
     
-    console.log("Yerp");
+    //creates the slider object
+    var slider = timeline.append("g")
+            .attr("class", "slider")
+            .call(brush);
+    //dunno
+    slider.selectAll(".extent, .resize")
+            .remove();
     
+    //gives the slider an icon
+    var handle = slider.append("circle")
+            .attr("class", "handle")
+            .attr("r", 7);
+        
+    //stuff
+    slider.call(brush.event)
+            .transition() //gratuitous intro!
+            .duration(750)
+            .call(brush.extent([70, 70]))
+            .call(brush.event);
+    
+    //the function that happens when it is brushed
+    function brushed() {
+        var value = brush.extent()[0];
+        
+        if (d3.event.sourceEvent) { //not a programatic event
+            value = axisScale.invert(d3.mouse(this)[0]);
+            brush.extent([value, value]);
+        }
+        
+        handle.attr("cx", axisScale(value));
+    
+    } //end brushed
+    
+    
+    //what happens when it is done being brushed
+    function brushend() {
+        if (!d3.event.sourceEvent) {
+            return; //only transtion after input
+        }
+        
+        var value = brush.extent()[0];
+        brush.extent([value, value]);
+        
+        d3.select(this)
+            .transition()
+            .duration(0)
+            .call(brush.event);
+        
+        d3.select(this)
+            .transition()
+            .call(brush.extent(brush.extent().map(function(d) {
+                    currentYear = d3.round(d, 0);
+                    //should put something in here to make it snap
+                    //to meaningful values only
+                    return currentYear; 
+                    })))
+            .call(brush.event);
+        
+        console.log(currentYear);
+        updateLines();
+        updateYear();
+    }//end brushend
+
     
 }; //end make timeline
 
