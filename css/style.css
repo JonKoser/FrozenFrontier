@@ -109,3 +109,35 @@ div {
     height: 45px;
     width: 980px;
 }
+#button {
+  background: #323232;
+  background-image: -webkit-linear-gradient(top, #323232, #323232);
+  background-image: -moz-linear-gradient(top, #323232, #323232);
+  background-image: -ms-linear-gradient(top, #323232, #323232);
+  background-image: -o-linear-gradient(top, #323232, #323232);
+  background-image: linear-gradient(to bottom, #323232, #323232);
+  -webkit-border-radius: 25;
+  -moz-border-radius: 25;
+  border-radius: 25px;
+  font-family: Times;
+  color: #3b97cc;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  position: absolute;
+  left: 900px;
+  top: 9px;
+}
+#button:hover {
+  background: #d3d3d3;
+  text-decoration: none;
+}
+#welcomeInfo {
+    margin-top: 10px;
+    padding: 10px;
+    width: 860px;
+    height: 600px;
+    background-color: #323232;
+    border-radius: 10px;
+    color: #828281;
+}

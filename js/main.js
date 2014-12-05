@@ -7,7 +7,19 @@ window.onload = initialize();
 //the first function called once the html is loaded
 function initialize() {
     setMap();
+    setWelcomeScreen();
 };
+
+function setWelcomeScreen () {
+    var backgroundImage = d3.select("body")
+        .style("background-image", "url(http://i.imgur.com/PKscn22.jpg?1)")
+        .style("background-size", "100% auto");
+       
+    var welcomeInfo = d3.select("body")
+         .append("div")
+         .attr("id","welcomeInfo")
+         .text("In the past century advances in human technology coupled with climatic change has made the formidable arctic accessible!");
+}
 
 //set choropleth map parameters
 function setMap () {
@@ -17,19 +29,22 @@ function setMap () {
     
     var timelineBox = d3.select("body")
             .append("div")
-            .attr("class", "timelineBox");
+            .attr("class", "timelineBox")
+            .style("display","none");
     
 
     
     var infoPanelBox = d3.select("body")
             .append("div")
-            .attr("class", "infoPanelBox");
+            .attr("class", "infoPanelBox")
+            .style("display","none");
     
     makeInfoPanel(infoPanelBox);
     
     var mapContainer = d3.select("body")
             .append("div")
-            .attr("class", "mapContainer");
+            .attr("class", "mapContainer")
+            .style("display","none");
     
     mapContainer.append("text")
         .attr("class", "displayYear")
@@ -216,4 +231,19 @@ function makeInfoPanel (infoPanelBox) {
     console.log("hyup");
 
 }; //end make info panel box
+
+//button functionality, at this moment only goes from welcome screen to map. Also trying to get transitions to work.
+function changeVisibility() {
+    d3.select(".timelineBox")
+        .transition()
+        .style("display","block")
+        .duration(1000);
+    d3.select(".infoPanelBox")
+        .style("display","block");
+    d3.select(".mapContainer")
+        .style("display","block");
+    d3.select("#welcomeInfo")
+        .style("display","none");    
+}; //end changeVisibility
+
 
