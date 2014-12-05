@@ -236,8 +236,8 @@ function makeInfoPanel (infoPanelBox) {
 function changeVisibility() {
     d3.select(".timelineBox")
         .transition()
-        .style("display","block")
-        .duration(1000);
+        .duration(1000)
+        .style("display","block");
     d3.select(".infoPanelBox")
         .style("display","block");
     d3.select(".mapContainer")
