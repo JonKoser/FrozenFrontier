@@ -109,3 +109,33 @@ div {
     height: 45px;
     width: 980px;
 }
+
+.introContainer {
+    position: relative;
+    top: -680px;
+    left: 300px;
+    margin: 5px;
+    width: 300px;
+    height: 400px;
+    background: #deebf7;
+
+}
+
+.SkipButton {
+    position: absolute;
+    top: 370px;
+    left: 215px;
+    font-family: fantasy;
+    border-radius: 10px;
+    color: rgb(50, 125, 190);
+    background-color: rgb(50, 50, 50); 
+
+}
+
+.introTitle {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-size: 14pt;
+    color: rgb(50, 125, 190);
+}

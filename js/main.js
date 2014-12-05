@@ -7,6 +7,7 @@ window.onload = initialize();
 //the first function called once the html is loaded
 function initialize() {
     setMap();
+    setIntroBox();
 };
 
 //set choropleth map parameters
@@ -217,3 +218,30 @@ function makeInfoPanel (infoPanelBox) {
 
 }; //end make info panel box
 
+//Creates a box on top of map with short intro
+function setIntroBox () {
+    p = 1
+
+    var introContainer = d3.select("body")
+            .append("div")
+            .attr("class", "introContainer")
+            .style("z-index", p);
+
+    introContainer.append("text")
+        .attr("class", "introTitle")
+        .text("A short introduction to ocean claims")
+        .append("hr");
+
+    introContainer.append("button")
+        .attr("class", "SkipButton")
+        .attr("onclick","hide(p)")
+        .html("Skip Intro");
+        
+    }; // end of setIntroBox
+
+function hide(){
+        p = -1
+        d3.select(".introContainer")
+            .style("z-index", p);
+
+    }; // end of hide
