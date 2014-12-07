@@ -1,5 +1,6 @@
 //global variables
-var currentYear = 1906;
+var currentYear = 1903;
+var yearList = [];
 
 
 //begin script when window loads
@@ -121,15 +122,15 @@ function setMap () {
                 .append("g")
                 .attr("class", "lines")
                 .append("path")
-                .attr("class", function (d) {return d.properties.Year})
+                .attr("class", function (d) { yearList.push(d.properties.Year); //should remove duplicates 
+                                             return d.properties.Year})
                 .attr("d", path)
                 .on("click", function (d) {
                     console.log(d.properties.Descrip);
                 })
                 .on("mouseover", function() {console.log("over")});
         
-        
-        var yearArray = [];
+        console.log(yearList);
         
         
         makeTimeline(timelineBox);
@@ -280,13 +281,34 @@ function makeTimeline (timelineBox){
             .transition()
             .call(brush.extent(brush.extent().map(function(d) {
                     currentYear = d3.round(d, 0);
+            
+                    //if the current year is not a year from the list (loop through), 
+                    //plus 1 until it is!!!!
+                    var found = false; //variable to decide whether or not the year is in the list
+                    while (found == false) {
+                        //checks to see if the new year is in the usable year list
+                        if (($.inArray(currentYear, yearList) == -1)) {
+                            currentYear++;
+                            //if year gets too high, just sets it to 2014
+                            if (currentYear >= 2014) {
+                                currentYear = 2014;
+                                found = true;
+                            }
+                        }
+                        
+                        //if it is found in the list, does nothing and ends the loop
+                        else {
+                            found = true;
+                        }
+                    } //end while loop
                     //should put something in here to make it snap
                     //to meaningful values only
                     return currentYear; 
                     })))
             .call(brush.event);
         
-        console.log(currentYear);
+        
+        //update rest of map
         updateLines();
         updateYear();
     }//end brushend
