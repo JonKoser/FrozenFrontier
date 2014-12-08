@@ -594,6 +594,15 @@ function makeEventLine () {
 // function to create the info panel
 function makeInfoPanel (infoPanelBox) {
     console.log("hyup");
+    d3.select(".infoPanelBox")
+        .append("div")
+        .attr("id", "accordion")
+        .html("<h3>Event 1</h3><div><p>d.properties.Descrip</p></div><h3>Event 2</h3><div><p>Detailsss</p></div>");
+    $(function() {
+        $("#accordion").accordion({
+            collapsible: true
+        });
+    });
 
 }; //end make info panel box
 
