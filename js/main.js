@@ -389,7 +389,7 @@ function makeInfoPanel (infoPanelBox) {
     d3.select(".infoPanelBox")
         .append("div")
         .attr("id", "accordion")
-        .html("<h3>Event 1</h3><div><p>Lots of stuff happened</p></div><h3>Event 2</h3><div><p>Detailsss</p></div>");
+        .html("<h3>Event 1</h3><div><p>d.properties.Descrip</p></div><h3>Event 2</h3><div><p>Detailsss</p></div>");
     $(function() {
         $("#accordion").accordion({
             collapsible: true
