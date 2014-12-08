@@ -3,7 +3,7 @@ var currentYear = 1903;
 var yearList = [];
 var eventList = [];
 var width = 980;
-var timelineWidth = width-40;
+var timelineWidth = width-110;
 
 //begin script when window loads
 window.onload = initialize();
@@ -36,14 +36,11 @@ function setMap () {
             .attr("class", "timelineBox")
             .style("display","none");
     
-
-    
     var infoPanelBox = d3.select("body")
             .append("div")
             .attr("class", "infoPanelBox")
             .style("display","none");
     
-    makeInfoPanel(infoPanelBox);
     
     var mapContainer = d3.select("body")
             .append("div")
@@ -124,13 +121,14 @@ function setMap () {
                 .enter()
                 .append("g")
                 .attr("class", "line")
+                .attr("id", function (d) {return d.properties.EvID})
                 .append("path")
-                .attr("class", function (d) {return d.properties.Year})
                 .attr("d", path)
                 .on("click", function (d) {
                     console.log(d.properties.Descrip);
                 })
-                .on("mouseover", function() {console.log("over")});
+                .on("mouseover", highlight)
+                .on("mouseout", dehighlight);
        
 
         //adds all events to single array (eventList)
@@ -141,6 +139,7 @@ function setMap () {
         makeTimeline();
         makeEventLine();
         updateLines();
+        makeInfoPanel();
     };//end callback
     
     
@@ -149,20 +148,42 @@ function setMap () {
 
 
 
-/*-------NECESSARY FUNCTIONS-----------*/
+//---------------NECESSARY FUNCTIONS--------------------------------------------------
 
 
+//highlights the feature
+function highlight (data) {
+    
+    d3.selectAll("#" + data.properties.EvID)
+            .style("stroke-width", "3px");
+
+} //end highlight
+
+//-----------------------------------------------------------------------------------
+
+
+//dehighlights the feature
+function dehighlight(data) {
+    d3.selectAll("#" + data.properties.EvID)
+            .style("stroke-width", "1.5px");
+}//end dehighlight
+
+
+
+//-----------------------------------------------------------------------------------
+
+
+//updates the big display year
 function updateYear() {
     var yearText = d3.select(".displayYear");
     yearText.text(currentYear);
 }//end display year
 
+
+//-----------------------------------------------------------------------------------
+
+
 //function to update which lines are being displayed
-//the only problem I have with this is that I'm unconfortable
-//with the fact that I'm drawing all the features first then
-//just making the ones we're not using invisible. I feel like
-//there must be a way to just selectively draw the features
-//based on the year
 function updateLines() {
     var lines = d3.selectAll(".line")
             .style("stroke", function (d) {                  
@@ -179,18 +200,15 @@ function updateLines() {
                                 break;
                             case "Denmark":
                                 return "black";
-                                return;
+                                break;
                             case "United States":
                                 return "green";
-                                break;
-                            case "Norway, Russia":
-                                return "purple";
                                 break;
                             case "USSR":
                                 return "red";
                                 break;
                             default:
-                                return "turquois";
+                                return "purple";
                     } //end switch statement
                     
                 }
@@ -202,6 +220,12 @@ function updateLines() {
 }; //end update lines
 
 
+
+//-----------------------------------------------------------------------------------
+
+
+
+//makes the timeline
 function makeTimeline (){
     
     //if we wanted to add in months for this stuff, we could I guess
@@ -237,10 +261,10 @@ function makeTimeline (){
     //creates the timeline
     var timeline = timelineBox.append("svg")
             .attr("width", width)
-            .attr("height", 50)
+            .attr("height", 32)
             .attr("class", "timeline")
         .append("g") //give the timeline a scaleable group object
-            .attr("transform", "translate("+20+", "+25+")")
+            .attr("transform", "translate("+85+", "+25+")")
             .attr("class", "axis")
             .call(axisSpecs)
     
@@ -334,6 +358,13 @@ function makeTimeline (){
 }; //end make timeline
 
 
+
+
+//-----------------------------------------------------------------------------------
+
+
+
+
 //this function puts the events below the timeline,
 //colors them, and scales them
 function makeEventLine () {
@@ -345,60 +376,239 @@ function makeEventLine () {
     //adds a box to place events
     var eventBox = timelineBox.append("svg")
             .attr("width", width)
-            .attr("height", 70)
+            .attr("height", 80)
             .attr("class", "eventBox");
     
     //creates a line for the events to travel on
     var eventsLine = eventBox.append("g")
             .attr("class", "eventsLine")
-            .attr("transform", "translate("+22+", "+10+")"); //16 over, 10 down
+            .attr("transform", "translate("+85.5+", "+4+")"); //85.5 over, 4 down
     
     //creates the events and places them on the line
     var event = eventsLine.selectAll("event")
             .data(eventList) //uses the event list to register events
             .enter()
             .append("circle")
-            .attr("transform", function (d) { //gives the event an x-position based on
-                                              // the usable width of the timeline and
-                                              // and the year of the event. Our range of
-                                              // years is between 1903 and 2014 and the
-                                              // width of the timeline is width-30
+            .attr("transform", function (d) { 
+                
+                        //gives the event an x-position based on the usable width of the timeline
+                        //and the year of the event. Our range of years is between 1903 and 2014 and
+                        //the width of the timeline is timelineWidth
                         var x = (((timelineWidth)/(2014-1903))*(d.properties.Year-1903));
+                
+                        //give the event a y-position based on which country the event belongs to
                         var y;
-                        d.properties;
-                        return "translate(" + x + ", " + 0 + ")";
+                        switch (d.properties.Country) {
+                            case "Canada":
+                                y=6;
+                                break;
+                            case "Russia":
+                                y=20;
+                                break;
+                            case "Norway":
+                                y=34;
+                                break;
+                            case "Denmark":
+                                y=48;
+                                break;
+                            case "United States":
+                                y=62
+                                break;
+                            case "USSR":
+                                y=20;
+                                break;
+                            default:
+                                y=6;
+                        } //end switch statement
+                
+                        //sets the position of the dot
+                        return "translate(" + x + ", " + y + ")";
             })
-            .attr("r", 4)
+            .attr("stroke", function(d) { //sets the color of the label
+                        switch(d.properties.Country) {
+                            case "Canada":
+                                return "yellow";
+                                break;
+                            case "Russia":
+                                return "red";
+                                break;
+                            case "Norway":
+                                return "blue";
+                                break;
+                            case "Denmark":
+                                return "White";
+                                break;
+                            case "United States":
+                                return "green";
+                                break;
+                            case "USSR":
+                                return "red";
+                                break;
+                            default:
+                                return "purple";
+                        } //end switch statement
+            })
+            .attr("r", 6)
             .attr("class", "event")
-            .attr("fill", "white")
+            .attr("id", function(d) {return d.properties.EvID})
+            .attr("fill", "transparent")
             .on("click", function (d) { 
                 currentYear = d.properties.Year; //assigns a new current year
                 var trans = d3.transform(d3.select(this).attr("transform")) //gets the transform of the point
                 var xVal = trans.translate[0]; //gets the x-value position (translation) of the clicked point
                 //moves the handle
                 d3.select(".handle")
+                        .transition() //well, that was easy
+                        .duration(700)
                         .attr("cx", xVal);//d.attr("transform").translate[0]);
                 
                 //update the rest of the stuff
                 updateLines();
                 updateYear();
-                console.log(d.properties.Descrip)});
+            })
+            .on("mouseover", highlight)
+            .on("mouseout", dehighlight); //end of event
+    
+    //creates labels for the countries
+    var countryNames = ["Canada:", "Russia:", "Norway:", "United States:", "Denmark:"]
+    var countryLabels = eventsLine.selectAll("countryLabels")
+            .data(countryNames) //the frozen 5
+            .enter()
+            .append("g")
+            .attr("class", "countryLabels")
+            .append("text")
+            .text(function(d) {return d})
+            .attr("transform", function (d) { //sets the y height of the label
+                        switch (d) {
+                            case "Canada:":
+                                y=6;
+                                break;
+                            case "Russia:":
+                                y=20;
+                                break;
+                            case "Norway:":
+                                y=34;
+                                break; 
+                            case "Denmark:":
+                                y=48;
+                                break;
+                            case "United States:":
+                                y=62;
+                                break;                                
+                            default:
+                                y=6;
+                        } //end switch statement
+                        //sets the position of the label
+                        return "translate(" + -80+ ", " + (y+5) + ")";
+            })
+            .attr("fill", function(d) { //sets the color of the label
+                        switch(d) {
+                            case "Canada:":
+                                return "yellow";
+                                break;
+                            case "Russia:":
+                                return "red";
+                                break;
+                            case "Norway:":
+                                return "blue";
+                                break;
+                            case "Denmark:":
+                                return "White";
+                                break;
+                            case "United States:":
+                                return "green";
+                                break;
+                            case "USSR:":
+                                return "red";
+                                break;
+                            default:
+                                return "purple";
+                        } //end switch statement
+            });// end country Lables
+    
+    /*//creates dividing lines for the countries' events
+    var dividerLines = eventsLine.selectAll("dividerLines")
+            .data(countryNames)
+            .enter()
+            .append("g")
+            .attr("class", "dividerLines")
+            .append("svg:line")
+            .attr("x1", 0)
+            .attr("y1", function (d) {
+                        switch (d) {
+                            case "Canada:":
+                                return 6;
+                                break;
+                            case "Russia:":
+                                return 20;
+                                break;
+                            case "Norway:":
+                                return 34;
+                                break; 
+                            case "Denmark:":
+                                return 48;
+                                break;
+                            case "United States:":
+                                return 62;
+                                break;                                
+                            default:
+                                return 6;
+                        } //end switch statement         
+            
+            })
+            .attr("y2", function (d) {
+                        switch (d) {
+                            case "Canada:":
+                                return 6;
+                                break;
+                            case "Russia:":
+                                return 20;
+                                break;
+                            case "Norway:":
+                                return 34;
+                                break; 
+                            case "Denmark:":
+                                return 48;
+                                break;
+                            case "United States:":
+                                return 62;
+                                break;                                
+                            default:
+                                return 6;
+                        } //end switch statement         
+            
+            })
+            .attr("x2", width)
+            .style("stroke", "gray")
+            .style("stroke-width", "1pt")
+            .attr("transform", "translate(" + (-80)+ ", " + (7) + ")");*/
+                
     
 }// end make event line
 
+
+
+//-----------------------------------------------------------------------------------
+
+
+// function to create the info panel
 function makeInfoPanel (infoPanelBox) {
-    console.log("hyup");
     d3.select(".infoPanelBox")
-        .append("div")
-        .attr("id", "accordion")
-        .html("<h3>Event 1</h3><div><p>d.properties.Descrip</p></div><h3>Event 2</h3><div><p>Detailsss</p></div>");
+            .append("div")
+            .attr("id", "accordion")
+            .html("<h3>Event 1</h3><div><p>d.properties.Descrip</p></div><h3>Event 2</h3><div><p>Detailsss</p></div>");
     $(function() {
         $("#accordion").accordion({
             collapsible: true
         });
     });
-
+    
 }; //end make info panel box
+
+
+
+//-----------------------------------------------------------------------------------
+
 
 //button functionality, at this moment only goes from welcome screen to map. Also trying to get transitions to work.
 function changeVisibility() {
@@ -415,6 +625,11 @@ function changeVisibility() {
     d3.select("#button")
         .style("display", "none");
 }; //end changeVisibility
+
+
+
+//-----------------------------------------------------------------------------------
+
 
 
 //adds events to single array and years to year list
