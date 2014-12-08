@@ -152,3 +152,7 @@ div {
     border-radius: 10px;
     color: #828281;
 }
+#accordion {
+  color: #d3d3d3;
+  margin: 5px;
+}

@@ -36,8 +36,6 @@ function setMap () {
             .attr("class", "timelineBox")
             .style("display","none");
     
-
-    
     var infoPanelBox = d3.select("body")
             .append("div")
             .attr("class", "infoPanelBox")
@@ -388,6 +386,15 @@ function makeEventLine () {
 
 function makeInfoPanel (infoPanelBox) {
     console.log("hyup");
+    d3.select(".infoPanelBox")
+        .append("div")
+        .attr("id", "accordion")
+        .html("<h3>Event 1</h3><div><p>Lots of stuff happened</p></div><h3>Event 2</h3><div><p>Detailsss</p></div>");
+    $(function() {
+        $("#accordion").accordion({
+            collapsible: true
+        });
+    });
 
 }; //end make info panel box
 
