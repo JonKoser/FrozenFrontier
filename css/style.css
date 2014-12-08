@@ -12,16 +12,8 @@ div {
 .timelineBox {
     margin-top: 5px;
     width: 980px;
-    height: 120px;
+    height: 100px;
     
-}
-
-/*.event:hover {
-    fill: rgb(240, 240, 240);
-}*/
-
-.event {
-    stroke-width: 1.5;
 }
 
 .axis .domain {
@@ -37,11 +29,6 @@ div {
   stroke: #ddd;
   stroke-width: 8px;
   stroke-linecap: round;
-}
-
-.countryLabels {
-    font-size: 10pt;
-    font-family: sans-serif;
 }
 
 .slider .handle {
@@ -121,12 +108,7 @@ div {
 
 .line {
     fill:none;
-    stroke-width: 1.5px;
 }
-
-/*.line:hover {
-    stroke-width: 2.5pt;
-}*/
 
 #title {
     color: rgb(59, 152, 204);
@@ -169,6 +151,7 @@ div {
     background-color: #323232;
     border-radius: 10px;
     color: #828281;
+<<<<<<< HEAD
 }
 <<<<<<< HEAD
 
@@ -179,3 +162,6 @@ div {
   border-radius: 10px;
 }
 >>>>>>> FETCH_HEAD
+=======
+}
+>>>>>>> parent of 8163d6b... Lots of things
