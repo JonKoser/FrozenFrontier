@@ -1,7 +1,9 @@
 //global variables
 var currentYear = 1903;
 var yearList = [];
-
+var eventList = [];
+var width = 980;
+var timelineWidth = width-40;
 
 //begin script when window loads
 window.onload = initialize();
@@ -105,7 +107,8 @@ function setMap () {
    
     //retrieve and process NZ json file and data
     function callback(error, land, lines) {
-
+        
+        //projects the landmasses
         var landMasses = map.selectAll(".landMasses") 
                 .data(topojson.feature(land, land.objects.landOutline).features)
                 .enter() //create elements
@@ -115,30 +118,39 @@ function setMap () {
                 .attr("class", "landBody")
                 .attr("d", path); //project data as geometry in svg 
 
-        
-        var lines = map.selectAll(".lines")
+        //projects the line events
+        var line = map.selectAll(".line")
                 .data(topojson.feature(lines, lines.objects.Test_Lines).features)
                 .enter()
                 .append("g")
-                .attr("class", "lines")
+                .attr("class", "line")
                 .append("path")
-                .attr("class", function (d) { yearList.push(d.properties.Year); //should remove duplicates 
-                                             return d.properties.Year})
+                .attr("class", function (d) {return d.properties.Year})
                 .attr("d", path)
                 .on("click", function (d) {
                     console.log(d.properties.Descrip);
                 })
                 .on("mouseover", function() {console.log("over")});
+       
+
+        //adds all events to single array (eventList)
+        //also adds the years to the years array
+        //put csv, polygons, and points in here also
+        addEvents(lines);
         
-        console.log(yearList);
-        
-        
-        makeTimeline(timelineBox);
+        makeTimeline();
+        makeEventLine();
         updateLines();
     };//end callback
     
     
 };// end setMap
+
+
+
+
+/*-------NECESSARY FUNCTIONS-----------*/
+
 
 function updateYear() {
     var yearText = d3.select(".displayYear");
@@ -152,7 +164,7 @@ function updateYear() {
 //there must be a way to just selectively draw the features
 //based on the year
 function updateLines() {
-    var lines = d3.selectAll(".lines")
+    var lines = d3.selectAll(".line")
             .style("stroke", function (d) {                  
                 if (d.properties.Year == currentYear) {
                     switch (d.properties.Country) {
@@ -190,7 +202,7 @@ function updateLines() {
 }; //end update lines
 
 
-function makeTimeline (timelineBox){
+function makeTimeline (){
     
     //if we wanted to add in months for this stuff, we could I guess
     //var axisScale = d3.time.scale()
@@ -201,9 +213,11 @@ function makeTimeline (timelineBox){
     //which is a built-in brush slider for d3
     
     //sets up a scale for a data
+    
+    var timelineBox = d3.select(".timelineBox");
     var axisScale = d3.scale.linear()
             .domain([1903, 2014]) //range of years
-            .range([0, 950]) //range of usable pixel space
+            .range([0, timelineWidth]) //range of usable pixel space
             .clamp(true); //has to be within domain
     
     //set up the brush controler
@@ -216,16 +230,17 @@ function makeTimeline (timelineBox){
     //sets up the axis the timeline will run along
     var axisSpecs = d3.svg.axis()
             .scale(axisScale)
-            .tickValues([1903, 1918, 1941, 1956, 1974, 1992, 2010, 2014])
+            .tickValues([1903, 2014])
             .tickFormat(d3.format("d"))
             .orient("top");
     
     //creates the timeline
     var timeline = timelineBox.append("svg")
-            .attr("width", 980)
-            .attr("height", 100)
-        .append("g")
-            .attr("transform", "translate("+15+", "+25+")")
+            .attr("width", width)
+            .attr("height", 50)
+            .attr("class", "timeline")
+        .append("g") //give the timeline a scaleable group object
+            .attr("transform", "translate("+20+", "+25+")")
             .attr("class", "axis")
             .call(axisSpecs)
     
@@ -272,6 +287,7 @@ function makeTimeline (timelineBox){
         var value = brush.extent()[0];
         brush.extent([value, value]);
         
+        //select the brush slider and give it a transition
         d3.select(this)
             .transition()
             .duration(0)
@@ -280,6 +296,7 @@ function makeTimeline (timelineBox){
         d3.select(this)
             .transition()
             .call(brush.extent(brush.extent().map(function(d) {
+                    //round year to whole number
                     currentYear = d3.round(d, 0);
             
                     //if the current year is not a year from the list (loop through), 
@@ -316,6 +333,59 @@ function makeTimeline (timelineBox){
     
 }; //end make timeline
 
+
+//this function puts the events below the timeline,
+//colors them, and scales them
+function makeEventLine () {
+        
+    //selects the timelne box
+    var timelineBox = d3.select(".timelineBox");
+    
+
+    //adds a box to place events
+    var eventBox = timelineBox.append("svg")
+            .attr("width", width)
+            .attr("height", 70)
+            .attr("class", "eventBox");
+    
+    //creates a line for the events to travel on
+    var eventsLine = eventBox.append("g")
+            .attr("class", "eventsLine")
+            .attr("transform", "translate("+22+", "+10+")"); //16 over, 10 down
+    
+    //creates the events and places them on the line
+    var event = eventsLine.selectAll("event")
+            .data(eventList) //uses the event list to register events
+            .enter()
+            .append("circle")
+            .attr("transform", function (d) { //gives the event an x-position based on
+                                              // the usable width of the timeline and
+                                              // and the year of the event. Our range of
+                                              // years is between 1903 and 2014 and the
+                                              // width of the timeline is width-30
+                        var x = (((timelineWidth)/(2014-1903))*(d.properties.Year-1903));
+                        var y;
+                        d.properties;
+                        return "translate(" + x + ", " + 0 + ")";
+            })
+            .attr("r", 4)
+            .attr("class", "event")
+            .attr("fill", "white")
+            .on("click", function (d) { 
+                currentYear = d.properties.Year; //assigns a new current year
+                var trans = d3.transform(d3.select(this).attr("transform")) //gets the transform of the point
+                var xVal = trans.translate[0]; //gets the x-value position (translation) of the clicked point
+                //moves the handle
+                d3.select(".handle")
+                        .attr("cx", xVal);//d.attr("transform").translate[0]);
+                
+                //update the rest of the stuff
+                updateLines();
+                updateYear();
+                console.log(d.properties.Descrip)});
+    
+}// end make event line
+
 function makeInfoPanel (infoPanelBox) {
     console.log("hyup");
 
@@ -332,7 +402,30 @@ function changeVisibility() {
     d3.select(".mapContainer")
         .style("display","block");
     d3.select("#welcomeInfo")
-        .style("display","none");    
+        .style("display","none");
+    d3.select("#button")
+        .style("display", "none");
 }; //end changeVisibility
 
 
+//adds events to single array and years to year list
+function addEvents(lines) {
+    
+    //adds the line events
+    var lineEvents = lines.objects.Test_Lines.geometries
+    for (var i = 0; i < lineEvents.length; i++) {
+        //adds the whole event to the event list
+        eventList.push(lineEvents[i]);
+        //adds the year to the year list
+        yearList.push(lineEvents[i].properties.Year);
+    }
+    
+    
+    
+    //adds the point events
+    
+    //adds the polygon events
+    
+    //adds the csv events
+    
+}; //end addEvents

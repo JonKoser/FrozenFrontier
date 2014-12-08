@@ -12,7 +12,7 @@ div {
 .timelineBox {
     margin-top: 5px;
     width: 980px;
-    height: 150px;
+    height: 100px;
     
 }
 
@@ -37,13 +37,6 @@ div {
   stroke-opacity: .5;
   stroke-width: 1.25px;
   cursor: pointer;
-}
-
-
-.timeline{
-    position: static;
-    width: 950px;
-    top: 50px;
 }
 
 
@@ -113,7 +106,7 @@ div {
     stroke-width: .5px;
 }
 
-.lines {
+.line {
     fill:none;
 }
 
