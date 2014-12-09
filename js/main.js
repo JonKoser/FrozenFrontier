@@ -4,6 +4,7 @@ var yearList = [];
 var eventList = [];
 var width = 980;
 var timelineWidth = width-110;
+var selectedEvent; //should start with the 1903 event
 
 //begin script when window loads
 window.onload = initialize();
@@ -125,7 +126,8 @@ function setMap () {
                 .append("path")
                 .attr("d", path)
                 .on("click", function (d) {
-                    console.log(d.properties.Descrip);
+                    selectedEvent = d;
+                    console.log(selectedEvent.properties);
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -136,10 +138,12 @@ function setMap () {
         //put csv, polygons, and points in here also
         addEvents(lines);
         
+        selectedEvent = eventList[0];
         makeTimeline();
         makeEventLine();
         updateLines();
         makeInfoPanel();
+        updateInfoPanel();
     };//end callback
     
     
@@ -350,6 +354,7 @@ function makeTimeline (){
         
         
         //update rest of map
+        updateInfoPanel();
         updateLines();
         updateYear();
     }//end brushend
@@ -454,6 +459,7 @@ function makeEventLine () {
             .attr("fill", "transparent")
             .on("click", function (d) { 
                 currentYear = d.properties.Year; //assigns a new current year
+                selectedEvent = d; //assigns the selected event
                 var trans = d3.transform(d3.select(this).attr("transform")) //gets the transform of the point
                 var xVal = trans.translate[0]; //gets the x-value position (translation) of the clicked point
                 //moves the handle
@@ -463,6 +469,7 @@ function makeEventLine () {
                         .attr("cx", xVal);//d.attr("transform").translate[0]);
                 
                 //update the rest of the stuff
+                updateInfoPanel();
                 updateLines();
                 updateYear();
             })
@@ -593,21 +600,48 @@ function makeEventLine () {
 
 // function to create the info panel
 function makeInfoPanel (infoPanelBox) {
+
     d3.select(".infoPanelBox")
             .append("div")
             .attr("id", "accordion")
-            .html("<h3>Event 1</h3><div><p>d.properties.Descrip</p></div><h3>Event 2</h3><div><p>Detailsss</p></div>");
-    $(function() {
-        $("#accordion").accordion({
-            collapsible: true
-        });
+            .html("<h3 id='eventName'>Event 1</h3><div><p id='eventDescrip'></p></div>");
+    
+    $("#accordion").accordion({
+        collapsible: true,
+        heightStyle: "content"
     });
     
 }; //end make info panel box
 
 
 
+
 //-----------------------------------------------------------------------------------
+
+
+//function to update the contents of the info panel
+function updateInfoPanel() {
+    var description;
+    var name;
+    
+    name = selectedEvent.properties.Name
+    description = selectedEvent.properties.Descrip
+
+    
+    d3.select("#eventDescrip")
+            .text(description);
+    d3.select("#eventName")
+            .text(name);
+    
+
+}; //end update info panel
+
+
+
+
+//-----------------------------------------------------------------------------------
+
+
 
 
 //button functionality, at this moment only goes from welcome screen to map. Also trying to get transitions to work.
@@ -651,5 +685,11 @@ function addEvents(lines) {
     //adds the polygon events
     
     //adds the csv events
+    
+    //sorts the event list from first to last by year
+    eventList.sort(function(obj1, obj2) {
+        return obj1.properties.Year - obj2.properties.Year;
+    })
+
     
 }; //end addEvents

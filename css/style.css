@@ -177,3 +177,13 @@ div {
     color: #828281;
 }
 
+#accordion .ui-accordion-content{
+    padding: 5px;
+
+} 
+
+
+
+accordion .ui-accordion-header {
+    padding: 5px;
+}
