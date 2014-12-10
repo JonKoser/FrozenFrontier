@@ -144,29 +144,8 @@ div {
     height: 45px;
     width: 980px;
 }
-#button {
-  background: #323232;
-  background-image: -webkit-linear-gradient(top, #323232, #323232);
-  background-image: -moz-linear-gradient(top, #323232, #323232);
-  background-image: -ms-linear-gradient(top, #323232, #323232);
-  background-image: -o-linear-gradient(top, #323232, #323232);
-  background-image: linear-gradient(to bottom, #323232, #323232);
-  -webkit-border-radius: 25;
-  -moz-border-radius: 25;
-  border-radius: 10px;
-  font-family: Times;
-  color: #3b97cc;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
-  position: absolute;
-  left: 739px;
-  top: 9px;
-}
-#button:hover {
-  background: #d3d3d3;
-  text-decoration: none;
-}
+
+
 #welcomeInfo {
     margin-top: 10px;
     padding: 10px;
@@ -175,6 +154,90 @@ div {
     background-color: #323232;
     border-radius: 10px;
     color: #828281;
+}
+
+.introContainer {
+    position: relative;
+    top: -720px;
+    left: 1000px;
+    margin: 5px;
+    width: 300px;
+    height: 400px;
+
+}
+
+.Button {
+    background: #323232;
+    background-image: -webkit-linear-gradient(top, #323232, #323232);
+    background-image: -moz-linear-gradient(top, #323232, #323232);
+    background-image: -ms-linear-gradient(top, #323232, #323232);
+    background-image: -o-linear-gradient(top, #323232, #323232);
+    background-image: linear-gradient(to bottom, #323232, #323232);
+    -webkit-border-radius: 25;
+    -moz-border-radius: 25;
+    border-radius: 10px;
+    font-family: Times;
+    color: #3b97cc;
+}
+
+
+.Button:hover {
+  background: #d3d3d3;
+  text-decoration: none;
+}
+
+#startButton {
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  position: absolute;
+  left: 739px;
+  top: 9px;
+}
+
+#SkipButton {
+    font-size: 10px;
+    padding: 4px 8px 4px 8px;
+    text-decoration: none;
+    position: absolute;
+    top: 370px;
+    left: 215px;
+}
+
+#nextButton {
+    font-size: 10px;
+    padding: 4px 8px 4px 8px;
+    text-decoration: none;
+    position: absolute;
+    top: 370px;
+    left: 100px;
+}
+
+#backButton {
+    font-size: 10px;
+    padding: 4px 8px 4px 8px;
+    text-decoration: none;
+    position: absolute;
+    top: 370px;
+    left: 50px;
+}
+
+
+.introTitle {
+    position: absolute;
+    top: 5px;
+    left: 40px;
+    font-size: 14pt;
+    color: rgb(50, 125, 190);
+}
+
+.imageBox {
+  position: absolute;
+  border: none;
+  top: 185px;
+  left: 10px;
+  width: 250px; 
+  height: 198px;
 }
 
 #accordion .ui-accordion-content{

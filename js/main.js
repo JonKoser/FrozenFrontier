@@ -5,6 +5,8 @@ var eventList = [];
 var width = 980;
 var timelineWidth = width-110;
 var selectedEvent; //should start with the 1903 event
+var img = 1;
+
 
 //begin script when window loads
 window.onload = initialize();
@@ -656,14 +658,15 @@ function changeVisibility() {
         .style("display","block");
     d3.select("#welcomeInfo")
         .style("display","none");
-    d3.select("#button")
+    d3.select("#startButton")
         .style("display", "none");
+    setIntroBox();
 }; //end changeVisibility
 
 
 
 //-----------------------------------------------------------------------------------
-
+//Creating introduction to concepts of ocean annexing law (UNCLOS)
 
 
 //adds events to single array and years to year list
@@ -693,3 +696,102 @@ function addEvents(lines) {
 
     
 }; //end addEvents
+
+
+
+//-----------------------------------------------------------------------------------
+
+
+//Creates a box on top of map with short intro
+function setIntroBox () {
+    
+    is = img.toString();
+
+    var introContainer = d3.select("body")
+        .append("div")
+        .attr("class", "introContainer");
+
+    var imageBox = d3.select(".introContainer")
+        .append("div")
+        .attr("class", "imageBox")
+
+    introContainer.append("text")
+        .attr("class", "introTitle")
+        .text("Dividing oceans: The theory")
+        .append("hr");
+
+    imageBox.append("img")
+        .attr("class", "oceanDivide")
+        .attr("src", "img/OceanDivide"+is+".png")
+        .attr("alt", "ocean divide" + is);
+
+    introContainer.append("button")
+        .attr("class", "Button")
+        .attr("id", "SkipButton")
+        .attr("onclick","hideIntro()")
+        .html("Skip");
+
+    introContainer.append("button")
+        .attr("class", "Button")
+        .attr("id", "nextButton")
+        .attr("onclick", "nextImg()")
+        .html("Next");
+
+    introContainer.append("button")
+        .attr("class", "Button")
+        .attr("id", "backButton")
+        .attr("onclick", "formerImg()")
+        .html("Back")
+        .style("color", "#d3d3d3");
+     
+}; // end of setIntroBox
+
+function hideIntro(){
+        d3.select(".introContainer")
+            .style("display", "none");
+}; // end of hide
+
+function nextImg(){ //loads next ocean divison image
+    if (img < 5){
+        img += 1;
+        console.log("plus ", img);
+        is = img.toString();
+        d3.select(".oceanDivide")
+            .attr("src", "img/OceanDivide"+is+".png");
+
+        d3.select("#backButton")
+            .style("color", "#3b97cc");
+
+        };
+
+    if (img == 4) {
+            d3.select("#nextButton")
+            .html("Close")       
+        };
+    if (img == 5){
+        hideIntro();
+
+    };
+}; // End of nextImg
+
+function formerImg(){ //set function for backBottom that moves back through descriptions
+    if (img > 1) {
+        img -= 1;
+        console.log("minus ", img);
+        is = img.toString();
+        d3.select(".oceanDivide")
+            .attr("src", "img/OceanDivide"+is+".png");
+        d3.select("#nextButton")
+            .html("Next");
+
+        if (img == 1){
+            d3.select("#backButton")
+            .style("color", "#d3d3d3");
+
+        }
+    };
+
+}; //End of formerImg
+
+//-----------------------------------------------------------------------------------
+
