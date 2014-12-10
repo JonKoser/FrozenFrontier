@@ -281,6 +281,7 @@ function makeTimeline (){
                 } //end while loop
 
                 console.log("hi")
+                moveHandle();
                 updateYear();
                 updateLines();
                 updateInfoPanel;
@@ -311,6 +312,7 @@ function makeTimeline (){
                 } //end while loop
 
                 console.log("hi")
+                moveHandle();
                 updateYear();
                 updateLines();
                 updateInfoPanel;
@@ -541,13 +543,9 @@ function makeEventLine () {
                 selectedEvent = d; //assigns the selected event
                 var trans = d3.transform(d3.select(this).attr("transform")) //gets the transform of the point
                 var xVal = trans.translate[0]; //gets the x-value position (translation) of the clicked point
-                //moves the handle
-                d3.select(".handle")
-                        .transition() //well, that was easy
-                        .duration(700)
-                        .attr("cx", xVal);//d.attr("transform").translate[0]);
                 
                 //update the rest of the stuff
+                moveHandle(xVal);
                 updateInfoPanel();
                 updateLines();
                 updateYear();
@@ -677,7 +675,26 @@ function makeEventLine () {
 }// end make event line
 
 
+//-----------------------------------------------------------------------------------
 
+
+function moveHandle (xGiven) {
+    
+    var x
+    if (!xGiven) {
+        console.log("ugh");
+        x = (((timelineWidth)/(2014-1903))*(currentYear-1903))
+    }
+    else {
+        x = xGiven;
+    }
+    
+    
+    d3.select(".handle")
+        .transition() //well, that was easy
+        .duration(700)
+        .attr("cx", x);
+}
 //-----------------------------------------------------------------------------------
 
 
