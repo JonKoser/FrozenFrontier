@@ -896,3 +896,4 @@ function formerImg(){ //set function for backBottom that moves back through desc
 
 //-----------------------------------------------------------------------------------
 
+console.log("hello world! I'm back")
