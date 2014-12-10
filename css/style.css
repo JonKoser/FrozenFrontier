@@ -187,7 +187,8 @@ div {
 }
 
 .buttonBox {
-    width: 50px;
+    display: inline-block;
+    width: 100px;
     position: absolute;
     margin-left: 5px;
     margin-top: 10px;
