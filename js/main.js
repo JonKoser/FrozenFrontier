@@ -11,11 +11,15 @@ var img = 1;
 //begin script when window loads
 window.onload = initialize();
 
+//----------------------------BEGIN THE WEBSITE!---------------------------------------
+
 //the first function called once the html is loaded
 function initialize() {
     setMap();
     setWelcomeScreen();
 };
+
+//-----------------------------------------------------------------------------------
 
 function setWelcomeScreen () {
     var backgroundImage = d3.select("body")
@@ -27,6 +31,8 @@ function setWelcomeScreen () {
          .attr("id","welcomeInfo")
          .text("In the past century advances in human technology coupled with climatic change has made the formidable arctic accessible!");
 }
+
+//-----------------------------------------------------------------------------------
 
 //set choropleth map parameters
 function setMap () {
@@ -245,6 +251,74 @@ function makeTimeline (){
     //sets up a scale for a data
     
     var timelineBox = d3.select(".timelineBox");
+    
+    var buttonBox = d3.select(".timelineBox")
+            .append("span")
+            .attr("class", "buttonBox")
+    
+    //add the next year button
+    var backYear = buttonBox.append("button")
+        .attr("class", "Button")
+        .attr("id", "backYear")
+        .on("click", function backYear() {
+                currentYear += -1;
+                var found = false; //variable to decide whether or not the year is in the list
+                while (found == false) {
+                    //checks to see if the new year is in the usable year list
+                        if (($.inArray(currentYear, yearList) == -1)) {
+                        currentYear += -1;
+                        //if year gets too high, just sets it to 2014
+                        if (currentYear < 1903) {
+                            currentYear = 2014;
+                            found = true;
+                        }
+                    }
+                    
+                    //if it is found in the list, does nothing and ends the loop
+                    else {
+                        found = true;
+                    }
+                } //end while loop
+
+                console.log("hi")
+                updateYear();
+                updateLines();
+                updateInfoPanel;
+            })//end nextYear
+        .text("<");   
+    //add the back year button
+    var nextYear = buttonBox.append("button")
+        .attr("class", "Button")
+        .attr("id", "nextYear")
+        .on("click", function nextYear() {
+                currentYear ++;
+                var found = false; //variable to decide whether or not the year is in the list
+                while (found == false) {
+                    //checks to see if the new year is in the usable year list
+                        if (($.inArray(currentYear, yearList) == -1)) {
+                        currentYear++;
+                        //if year gets too high, just sets it to 2014
+                        if (currentYear > 2014) {
+                            currentYear = 1903;
+                            found = true;
+                        }
+                    }
+                    
+                    //if it is found in the list, does nothing and ends the loop
+                    else {
+                        found = true;
+                    }
+                } //end while loop
+
+                console.log("hi")
+                updateYear();
+                updateLines();
+                updateInfoPanel;
+            })//end nextYear
+        .text(">");
+    
+
+
     var axisScale = d3.scale.linear()
             .domain([1903, 2014]) //range of years
             .range([0, timelineWidth]) //range of usable pixel space
@@ -367,6 +441,9 @@ function makeTimeline (){
 
 
 
+
+
+
 //-----------------------------------------------------------------------------------
 
 
@@ -383,7 +460,7 @@ function makeEventLine () {
     //adds a box to place events
     var eventBox = timelineBox.append("svg")
             .attr("width", width)
-            .attr("height", 80)
+            .attr("height", 96)
             .attr("class", "eventBox");
     
     //creates a line for the events to travel on
@@ -425,7 +502,7 @@ function makeEventLine () {
                                 y=20;
                                 break;
                             default:
-                                y=6;
+                                y=78;
                         } //end switch statement
                 
                         //sets the position of the dot
@@ -479,12 +556,15 @@ function makeEventLine () {
             .on("mouseout", dehighlight); //end of event
     
     //creates labels for the countries
-    var countryNames = ["Canada:", "Russia:", "Norway:", "United States:", "Denmark:"]
+    var countryNames = ["Canada:", "Russia:", "Norway:", "United States:", "Denmark:", "Treaties:"]
     var countryLabels = eventsLine.selectAll("countryLabels")
             .data(countryNames) //the frozen 5
             .enter()
             .append("g")
             .attr("class", "countryLabels")
+            .attr("id", function (d) {
+                    d + "Label";
+            })
             .append("text")
             .text(function(d) {return d})
             .attr("transform", function (d) { //sets the y height of the label
@@ -503,9 +583,10 @@ function makeEventLine () {
                                 break;
                             case "United States:":
                                 y=62;
-                                break;                                
-                            default:
-                                y=6;
+                                break;  
+                            case "Treaties:":
+                                y = 78;
+                                break;
                         } //end switch statement
                         //sets the position of the label
                         return "translate(" + -80+ ", " + (y+5) + ")";
@@ -590,7 +671,7 @@ function makeEventLine () {
             .attr("x2", width)
             .style("stroke", "gray")
             .style("stroke-width", "1pt")
-            .attr("transform", "translate(" + (-80)+ ", " + (7) + ")");*/
+            .attr("transform", "translate(" + (-80)+ ", " + (0) + ")");*/
                 
     
 }// end make event line
@@ -729,19 +810,19 @@ function setIntroBox () {
         .attr("class", "Button")
         .attr("id", "SkipButton")
         .attr("onclick","hideIntro()")
-        .html("Skip");
+        .text("Skip");
 
     introContainer.append("button")
         .attr("class", "Button")
         .attr("id", "nextButton")
         .attr("onclick", "nextImg()")
-        .html("Next");
+        .text("Next");
 
     introContainer.append("button")
         .attr("class", "Button")
         .attr("id", "backButton")
         .attr("onclick", "formerImg()")
-        .html("Back")
+        .text("Back")
         .style("color", "#d3d3d3");
      
 }; // end of setIntroBox
@@ -766,7 +847,7 @@ function nextImg(){ //loads next ocean divison image
 
     if (img == 4) {
             d3.select("#nextButton")
-            .html("Close")       
+            .text("Close")       
         };
     if (img == 5){
         hideIntro();
