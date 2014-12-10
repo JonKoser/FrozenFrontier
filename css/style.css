@@ -225,6 +225,7 @@ div {
 
 .introTitle {
     position: absolute;
+    font-family: Times;
     top: 5px;
     left: 40px;
     font-size: 14pt;
