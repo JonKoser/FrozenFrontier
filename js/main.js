@@ -205,30 +205,9 @@ function updateYear() {
 //function to update which lines are being displayed
 function updateLines() {
     var lines = d3.selectAll(".line")
-            .style("stroke", function (d) {                  
+            .style("stroke", function (d) {    
                 if (d.properties.Year == currentYear) {
-                    switch (d.properties.Country) {
-                            case "Canada":
-                                return "yellow";
-                                break;
-                            case "Russia":
-                                return "red";
-                                break;
-                            case "Norway":
-                                return "blue";
-                                break;
-                            case "Denmark":
-                                return "black";
-                                break;
-                            case "United States":
-                                return "green";
-                                break;
-                            case "USSR":
-                                return "red";
-                                break;
-                            default:
-                                return "purple";
-                    } //end switch statement
+                    return colorize(d);
                     
                 }
                 else { //if not the current year
@@ -287,7 +266,6 @@ function makeTimeline (){
                     }
                 } //end while loop
 
-                console.log("hi")
                 moveHandle();
                 updateYear();
                 updateLines();
@@ -488,7 +466,6 @@ function makeEventLine () {
                         //and the year of the event. Our range of years is between 1903 and 2014 and
                         //the width of the timeline is timelineWidth
                         var props = d.properties ? d.properties : d;
-                        console.log(d);
                         var x = (((timelineWidth)/(2014-1903))*(Number(props.Year)-1903));
                 
                         //give the event a y-position based on which country the event belongs to
@@ -519,31 +496,7 @@ function makeEventLine () {
                         //sets the position of the dot
                         return "translate(" + x + ", " + y + ")";
             })
-            .attr("stroke", function(d) { //sets the color of the label
-                        var props = d.properties ? d.properties : d;
-                        switch(props.Country) {
-                            case "Canada":
-                                return "yellow";
-                                break;
-                            case "Russia":
-                                return "red";
-                                break;
-                            case "Norway":
-                                return "blue";
-                                break;
-                            case "Denmark":
-                                return "White";
-                                break;
-                            case "United States":
-                                return "green";
-                                break;
-                            case "USSR":
-                                return "red";
-                                break;
-                            default:
-                                return "purple";
-                        } //end switch statement
-            })
+            .attr("stroke", colorize)
             .attr("r", 6)
             .attr("class", "event")
             .attr("id", function(d) {
@@ -740,8 +693,6 @@ function updateInfoPanel() {
     
     name = props.Name
     description = props.Descrip
-
-    console.log(selectedEvent);
     
     d3.select("#eventDescrip")
             .text(description);
@@ -922,3 +873,36 @@ function formerImg(){ //set function for backBottom that moves back through desc
 //-----------------------------------------------------------------------------------
 
 console.log("hello world! I'm back")
+
+
+
+
+
+//-----------------------------------------------------------------------------------
+
+
+function colorize (data) { //sets the color of the label
+            var props = data.properties ? data.properties : data;
+            switch(props.Country) {
+                case "Canada":
+                    return "yellow";
+                    break;
+                case "Russia":
+                    return "red";
+                    break;
+                case "Norway":
+                    return "blue";
+                    break;
+                case "Denmark":
+                    return "White";
+                    break;
+                case "United States":
+                    return "green";
+                    break;
+                case "USSR":
+                    return "red";
+                    break;
+                default:
+                    return "purple";
+            } //end switch statement
+}//end colorize
