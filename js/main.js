@@ -115,7 +115,7 @@ function setMap () {
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
-    function callback(error, land, lines) {
+    function callback(error, land, lines, treaties) {
         
         //projects the landmasses
         var landMasses = map.selectAll(".landMasses") 
@@ -147,7 +147,7 @@ function setMap () {
         //adds all events to single array (eventList)
         //also adds the years to the years array
         //put csv, polygons, and points in here also
-        addEvents(lines);
+        addEvents(lines, treaties);
         
         selectedEvent = eventList[0];
         makeTimeline();
@@ -169,7 +169,9 @@ function setMap () {
 //highlights the feature
 function highlight (data) {
     
-    d3.selectAll("#" + data.properties.EvID)
+    var props = data.properties ? data.properties : data;
+    
+    d3.selectAll("#" + props.EvID)
             .style("stroke-width", "3px");
 
 } //end highlight
@@ -179,7 +181,9 @@ function highlight (data) {
 
 //dehighlights the feature
 function dehighlight(data) {
-    d3.selectAll("#" + data.properties.EvID)
+    
+    var props = data.properties ? data.properties : data;
+    d3.selectAll("#" + props.EvID)
             .style("stroke-width", "1.5px");
 }//end dehighlight
 
@@ -483,11 +487,13 @@ function makeEventLine () {
                         //gives the event an x-position based on the usable width of the timeline
                         //and the year of the event. Our range of years is between 1903 and 2014 and
                         //the width of the timeline is timelineWidth
-                        var x = (((timelineWidth)/(2014-1903))*(d.properties.Year-1903));
+                        var props = d.properties ? d.properties : d;
+                        console.log(d);
+                        var x = (((timelineWidth)/(2014-1903))*(Number(props.Year)-1903));
                 
                         //give the event a y-position based on which country the event belongs to
                         var y;
-                        switch (d.properties.Country) {
+                        switch (props.Country) {
                             case "Canada":
                                 y=6;
                                 break;
@@ -514,7 +520,8 @@ function makeEventLine () {
                         return "translate(" + x + ", " + y + ")";
             })
             .attr("stroke", function(d) { //sets the color of the label
-                        switch(d.properties.Country) {
+                        var props = d.properties ? d.properties : d;
+                        switch(props.Country) {
                             case "Canada":
                                 return "yellow";
                                 break;
@@ -539,10 +546,13 @@ function makeEventLine () {
             })
             .attr("r", 6)
             .attr("class", "event")
-            .attr("id", function(d) {return d.properties.EvID})
+            .attr("id", function(d) {
+                    var props = d.properties ? d.properties : d;
+                    return props.EvID})
             .attr("fill", "transparent")
             .on("click", function (d) { 
-                currentYear = d.properties.Year; //assigns a new current year
+                var props = d.properties ? d.properties : d;
+                currentYear = props.Year; //assigns a new current year
                 selectedEvent = d; //assigns the selected event
                 var trans = d3.transform(d3.select(this).attr("transform")) //gets the transform of the point
                 var xVal = trans.translate[0]; //gets the x-value position (translation) of the clicked point
@@ -726,10 +736,12 @@ function makeInfoPanel (infoPanelBox) {
 function updateInfoPanel() {
     var description;
     var name;
+    var props = selectedEvent.properties ? selectedEvent.properties : selectedEvent;
     
-    name = selectedEvent.properties.Name
-    description = selectedEvent.properties.Descrip
+    name = props.Name
+    description = props.Descrip
 
+    console.log(selectedEvent);
     
     d3.select("#eventDescrip")
             .text(description);
@@ -771,7 +783,7 @@ function changeVisibility() {
 
 
 //adds events to single array and years to year list
-function addEvents(lines) {
+function addEvents(lines, treaties) {
     
     //adds the line events
     var lineEvents = lines.objects.Test_Lines.geometries
@@ -789,10 +801,23 @@ function addEvents(lines) {
     //adds the polygon events
     
     //adds the csv events
+    var treatyEvents = treaties;
+
+    for (var i = 0; i < treatyEvents.length; i++) {
+        //adds the whole event to the event list
+        eventList.push(treatyEvents[i]);
+        //adds the year to the year list
+        yearList.push(Number(treatyEvents[i].Year));   
+    }
+    
     
     //sorts the event list from first to last by year
     eventList.sort(function(obj1, obj2) {
-        return obj1.properties.Year - obj2.properties.Year;
+        
+        var props1 = obj1.properties ? obj1.properties : obj1;
+        var props2 = obj2.properties ? obj2.properties : obj2;
+        
+        return props1.Year - props2.Year;
     })
 
     
