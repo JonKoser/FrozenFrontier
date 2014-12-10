@@ -558,25 +558,25 @@ function makeEventLine () {
             .attr("fill", function(d) { //sets the color of the label
                         switch(d) {
                             case "Canada:":
-                                return "yellow";
+                                return "rgb(153, 154, 184)";
                                 break;
                             case "Russia:":
-                                return "red";
+                                return "rgb(237, 223, 222)";
                                 break;
                             case "Norway:":
-                                return "blue";
+                                return "rgb(71, 81, 102)";
                                 break;
                             case "Denmark:":
-                                return "White";
+                                return "rgb(78, 99, 99)";
                                 break;
                             case "United States:":
-                                return "green";
+                                return "rgb(193, 209, 219)";
                                 break;
                             case "USSR:":
-                                return "red";
+                                return "rgb(237, 223, 222)";
                                 break;
                             default:
-                                return "purple";
+                                return "rgb(51, 196, 191)";
                         } //end switch statement
             });// end country Lables
     
@@ -885,24 +885,24 @@ function colorize (data) { //sets the color of the label
             var props = data.properties ? data.properties : data;
             switch(props.Country) {
                 case "Canada":
-                    return "yellow";
+                    return "rgb(153, 154, 184)";
                     break;
                 case "Russia":
-                    return "red";
+                    return "rgb(237, 223, 222)";
                     break;
                 case "Norway":
-                    return "blue";
+                    return "rgb(71, 81, 102)";
                     break;
                 case "Denmark":
-                    return "White";
+                    return "rgb(78, 99, 99)";
                     break;
                 case "United States":
-                    return "green";
+                    return "rgb(193, 209, 219)";
                     break;
                 case "USSR":
-                    return "red";
+                    return "rgb(237, 223, 222)";
                     break;
                 default:
-                    return "purple";
+                    return "rgb(51, 196, 191)";
             } //end switch statement
 }//end colorize
