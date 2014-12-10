@@ -105,10 +105,13 @@ function setMap () {
         .attr("d", path);
     
     
+    var semiColonParser = d3.dsv(";", "text/plain");
+    
     //use queue.js to parallelise asynchronous data loading
     queue()
         .defer(d3.json, "data/landOutline.topojson") //load attributes from topojson
         .defer(d3.json, "data/Test_Lines.topojson")
+        .defer(semiColonParser, "data/treatyData.csv")
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
