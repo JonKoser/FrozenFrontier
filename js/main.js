@@ -5,7 +5,7 @@ var eventList = [];
 var width = 980;
 var timelineWidth = width-110;
 var selectedEvent; //should start with the 1903 event
-var img = 1;
+var img = 0;
 
 
 //begin script when window loads
@@ -66,6 +66,7 @@ function setMap () {
     var mapContainerShadow = d3.select(".mapContainer")
             .append("div")
             .attr("class", "shadowBox")
+            .attr("id", "mapContainerShadow");
     
     //create a new svg element with the above dimensions
     var map = d3.select(".mapContainer")

@@ -158,11 +158,11 @@ div {
 
 .introContainer {
     position: relative;
-    top: -720px;
-    left: 1000px;
+    top: -722px;
+    left: -6px;
     margin: 5px;
-    width: 300px;
-    height: 400px;
+    width: 252px;
+    height: 450px;
 
 }
 
@@ -187,8 +187,7 @@ div {
 }
 
 .buttonBox {
-    display: inline-block;
-    width: 100px;
+    width: 50px;
     position: absolute;
     margin-left: 5px;
     margin-top: 10px;
@@ -213,8 +212,8 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: absolute;
-    top: 370px;
-    left: 215px;
+    top: 420px;
+    left: 200px;
 }
 
 #nextButton {
@@ -222,8 +221,8 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: absolute;
-    top: 370px;
-    left: 100px;
+    top: 420px;
+    left: 75px;
 }
 
 #backButton {
@@ -231,8 +230,8 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: absolute;
-    top: 370px;
-    left: 50px;
+    top: 420px;
+    left: 10px;
 }
 
 
@@ -240,7 +239,7 @@ div {
     position: absolute;
     font-family: Times;
     top: 5px;
-    left: 40px;
+    left: 20px;
     font-size: 14pt;
     color: rgb(50, 125, 190);
 }
@@ -248,8 +247,7 @@ div {
 .imageBox {
   position: absolute;
   border: none;
-  top: 185px;
-  left: 10px;
+  top: 220px;
   width: 250px; 
   height: 198px;
 }
@@ -260,7 +258,22 @@ div {
 } 
 
 
-
 accordion .ui-accordion-header {
     padding: 5px;
+}
+
+.shadowBox {
+  background: rgba(50,50,50, 0.8);
+  position: absolute;
+  z-index: 5;
+}
+
+#timelineBoxShadow{
+  width: 980px;
+  height: 138px;
+}
+
+#mapContainerShadow {
+  width: 720px;
+  height: 720px;
 }
