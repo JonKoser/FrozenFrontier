@@ -43,7 +43,10 @@ function setMap () {
     var timelineBox = d3.select("body")
             .append("div")
             .attr("class", "timelineBox")
-            .style("display","none");
+            .style("display","none")
+            .append("div")
+            .attr("class", "shadowBox")
+            .attr("id", "timelineBoxShadow");
     
     var infoPanelBox = d3.select("body")
             .append("div")
@@ -57,8 +60,12 @@ function setMap () {
             .style("display","none");
     
     mapContainer.append("text")
-        .attr("class", "displayYear")
-        .text(currentYear);
+            .attr("class", "displayYear")
+            .text(currentYear);
+
+    var mapContainerShadow = d3.select(".mapContainer")
+            .append("div")
+            .attr("class", "shadowBox")
     
     //create a new svg element with the above dimensions
     var map = d3.select(".mapContainer")
@@ -794,13 +801,14 @@ function setIntroBox () {
 
     introContainer.append("text")
         .attr("class", "introTitle")
-        .text("Dividing oceans: The theory")
+        .text("Dividing Oceans: The Basics")
         .append("hr");
 
     imageBox.append("img")
         .attr("class", "oceanDivide")
         .attr("src", "img/OceanDivide"+is+".png")
-        .attr("alt", "ocean divide" + is);
+        .attr("alt", "ocean divide" + is)
+        .style("display", "none");
 
     introContainer.append("button")
         .attr("class", "Button")
@@ -826,42 +834,53 @@ function setIntroBox () {
 function hideIntro(){
         d3.select(".introContainer")
             .style("display", "none");
+
+        d3.select(".shadowBox")
+            .style("display","none");
+
+        d3.select("#mapContainerShadow")
+            .style("display","none");
+
+
 }; // end of hide
 
 function nextImg(){ //loads next ocean divison image
-    if (img < 5){
-        img += 1;
-        console.log("plus ", img);
+    img += 1;
+    if (img < 4 && img > 0){
         is = img.toString();
         d3.select(".oceanDivide")
-            .attr("src", "img/OceanDivide"+is+".png");
+            .attr("src", "img/OceanDivide"+is+".png")
+            .style("display", "block");
 
         d3.select("#backButton")
             .style("color", "#3b97cc");
 
         };
 
-    if (img == 4) {
+    if (img == 3) {
             d3.select("#nextButton")
             .text("Close")       
         };
-    if (img == 5){
+    if (img == 4){
+
         hideIntro();
 
     };
 }; // End of nextImg
 
 function formerImg(){ //set function for backBottom that moves back through descriptions
-    if (img > 1) {
+    if (img > 0) {
         img -= 1;
-        console.log("minus ", img);
         is = img.toString();
         d3.select(".oceanDivide")
             .attr("src", "img/OceanDivide"+is+".png");
         d3.select("#nextButton")
             .html("Next");
 
-        if (img == 1){
+        if (img == 0){
+            d3.select(".oceanDivide")
+            .style("display", "none");
+
             d3.select("#backButton")
             .style("color", "#d3d3d3");
 
@@ -871,8 +890,6 @@ function formerImg(){ //set function for backBottom that moves back through desc
 }; //End of formerImg
 
 //-----------------------------------------------------------------------------------
-
-console.log("hello world! I'm back")
 
 
 
