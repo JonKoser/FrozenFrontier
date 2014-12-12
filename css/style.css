@@ -10,7 +10,6 @@ div {
 
 .timelineBox {
     /*margin-top: 5px;*/
-    width: 980px;
     height: 138px;
     
 }
@@ -61,16 +60,13 @@ div {
 .infoPanelBox {
     position: absolute;
     /*margin-top: 5px;*/
-    width: 250px;
-    height: 720px;
 }
 
 .mapContainer {
     position: relative;
     /*top: 5px;*/
-    left: 252px;
-    width: 728px;
-    height: 728px;
+
+
 
 }
 
@@ -142,7 +138,6 @@ div {
 
 #titleContainer {
     height: 45px;
-    width: 980px;
 }
 
 

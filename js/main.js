@@ -2,10 +2,11 @@
 var currentYear = 1903;
 var yearList = [];
 var eventList = [];
-var width = 980;
-var timelineWidth = width-110;
+var width = window.innerWidth;
+var timelineWidth = width-140;
 var selectedEvent; //should start with the 1903 event
 var img = 0;
+var infoPanelBoxWidth = 270;
 
 
 //begin script when window loads
@@ -37,8 +38,8 @@ function setWelcomeScreen () {
 //set choropleth map parameters
 function setMap () {
 
-    var mapWidth = 700,
-      mapHeight = 700;
+    var mapWidth = width - (infoPanelBoxWidth) - 28 - 34,
+      mapHeight = mapWidth;
     
     var timelineBox = d3.select("body")
             .append("div")
@@ -51,12 +52,16 @@ function setMap () {
     var infoPanelBox = d3.select("body")
             .append("div")
             .attr("class", "infoPanelBox")
+            .style("width", infoPanelBoxWidth + "px")
             .style("display","none");
     
     
     var mapContainer = d3.select("body")
             .append("div")
             .attr("class", "mapContainer")
+            .style("width", mapWidth + 28 + "px")
+            .style("height", mapHeight + 28 + "px")
+            .style("left", infoPanelBoxWidth + "px")
             .style("display","none");
     
     mapContainer.append("text")
@@ -72,11 +77,12 @@ function setMap () {
     var map = d3.select(".mapContainer")
             .append("svg")
             .attr("class", "map")
-            .attr("width", mapWidth)
-            .attr("height", mapHeight);
+            .attr("width", mapWidth + "px")
+            .attr("height", mapHeight + "px");
+    
 
     var projection = d3.geo.orthographic()
-            .scale(500)
+            .scale(mapWidth/1.5)
             .rotate([0, -90, 0])
             .translate([mapWidth / 2, mapHeight / 2])
             .clipAngle(90)
