@@ -30,6 +30,7 @@ function setWelcomeScreen () {
     var welcomeInfo = d3.select("body")
          .append("div")
          .attr("id","welcomeInfo")
+         .style("width", (width - 38) + "px")
          .text("In the past century advances in human technology coupled with climatic change has made the formidable arctic accessible!");
 }
 
@@ -71,7 +72,8 @@ function setMap () {
     var mapContainerShadow = d3.select(".mapContainer")
             .append("div")
             .attr("class", "shadowBox")
-            .attr("id", "mapContainerShadow");
+            .attr("id", "mapContainerShadow")
+            .style("width", width + "px");
     
     //create a new svg element with the above dimensions
     var map = d3.select(".mapContainer")
@@ -187,6 +189,8 @@ function highlight (data) {
     
     d3.selectAll("#" + props.EvID)
             .style("stroke-width", "3px");
+    
+    
 
 } //end highlight
 
