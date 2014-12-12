@@ -23,7 +23,7 @@ function initialize() {
 
 function setWelcomeScreen () {
     var backgroundImage = d3.select("body")
-        .style("background-image", "url(http://i.imgur.com/PKscn22.jpg?1)")
+        //.style("background-image", "url(http://i.imgur.com/PKscn22.jpg?1)")
         .style("background-size", "100% auto");
        
     var welcomeInfo = d3.select("body")
@@ -136,11 +136,11 @@ function setMap () {
                 .attr("d", path); //project data as geometry in svg 
 
         //projects the line events
-        var line = map.selectAll(".line")
+        var line = map.selectAll(".eLine")
                 .data(topojson.feature(lines, lines.objects.Test_Lines).features)
                 .enter()
                 .append("g")
-                .attr("class", "line")
+                .attr("class", "eLine")
                 .attr("id", function (d) {return d.properties.EvID})
                 .append("path")
                 .attr("d", path)
@@ -212,7 +212,7 @@ function updateYear() {
 
 //function to update which lines are being displayed
 function updateLines() {
-    var lines = d3.selectAll(".line")
+    var lines = d3.selectAll(".eLine")
             .style("stroke", function (d) {    
                 if (d.properties.Year == currentYear) {
                     return colorize(d);
@@ -329,7 +329,7 @@ function makeTimeline (){
     //sets up the axis the timeline will run along
     var axisSpecs = d3.svg.axis()
             .scale(axisScale)
-            .tickValues([1903, 2014])
+            .tickValues([1903, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2014])
             .tickFormat(d3.format("d"))
             .orient("top");
     

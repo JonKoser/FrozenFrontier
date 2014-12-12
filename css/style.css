@@ -6,7 +6,6 @@ div {
     border: 1px solid;
     border-color: rgb(100, 100, 100);
     background-color: rgb(30, 30, 30);
-    border-radius: 10px
 }
 
 .timelineBox {
@@ -119,7 +118,7 @@ div {
     stroke-width: .5px;
 }
 
-.line {
+.eLine {
     fill:none;
     stroke-width: 1.5px;
 }
@@ -152,7 +151,6 @@ div {
     width: 960px;
     height: 600px;
     background-color: #323232;
-    border-radius: 10px;
     color: #828281;
 }
 
@@ -175,7 +173,6 @@ div {
     background-image: linear-gradient(to bottom, #323232, #323232);
     -webkit-border-radius: 25;
     -moz-border-radius: 25;
-    border-radius: 10px;
     font-family: Times;
     color: #3b97cc;
 }
@@ -187,7 +184,7 @@ div {
 }
 
 .buttonBox {
-    width: 50px;
+    width: 75px;
     position: absolute;
     margin-left: 5px;
     margin-top: 10px;
@@ -196,6 +193,11 @@ div {
 #nextYear {
     position: relative;
     left: 5px;
+    border-radius: 50%;
+}
+
+#backYear {
+    border-radius: 50%;
 }
 
 #startButton {
@@ -256,6 +258,11 @@ div {
     padding: 5px;
 
 } 
+
+.tick line {
+    stroke: rgb(240, 240, 240);
+    stroke-width: 3px;
+}
 
 
 accordion .ui-accordion-header {
