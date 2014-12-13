@@ -144,7 +144,7 @@ function setMap () {
                 .attr("d", path); //project data as geometry in svg 
 
         //projects the line events
-        var line = map.selectAll(".eLine")
+        var eLine = map.selectAll(".eLine")
                 .data(topojson.feature(lines, lines.objects.Test_Lines).features)
                 .enter()
                 .append("g")
@@ -231,8 +231,10 @@ function updateYear() {
 //function to update which lines are being displayed
 function updateLines() {
     var lines = d3.selectAll(".eLine")
-            .style("stroke", function (d) {    
-                if (d.properties.Year == currentYear) {
+            .style("stroke", function (d) { 
+                
+                //displays the event if it is current
+                if (currentYear >= d.properties.startYear && currentYear <= d.properties.endYear) {
                     return colorize(d);
                     
                 }
@@ -493,7 +495,7 @@ function makeEventLine () {
                         //and the year of the event. Our range of years is between 1903 and 2014 and
                         //the width of the timeline is timelineWidth
                         var props = d.properties ? d.properties : d;
-                        var x = (((timelineWidth)/(2014-1903))*(Number(props.Year)-1903));
+                        var x = (((timelineWidth)/(2014-1903))*(Number(props.startYear)-1903));
                 
                         //give the event a y-position based on which country the event belongs to
                         var y;
@@ -533,7 +535,7 @@ function makeEventLine () {
             .attr("fill", "transparent")
             .on("click", function (d) { 
                 var props = d.properties ? d.properties : d;
-                currentYear = Number(props.Year); //assigns a new current year
+                currentYear = Number(props.startYear); //assigns a new current year
                 selectedEvent = d; //assigns the selected event
                 var trans = d3.transform(d3.select(this).attr("transform")) //gets the transform of the point
                 var xVal = trans.translate[0]; //gets the x-value position (translation) of the clicked point
@@ -770,7 +772,7 @@ function addEvents(lines, treaties) {
         //adds the whole event to the event list
         eventList.push(lineEvents[i]);
         //adds the year to the year list
-        yearList.push(lineEvents[i].properties.Year);
+        yearList.push(lineEvents[i].properties.startYear);
     }
     
     
@@ -786,7 +788,7 @@ function addEvents(lines, treaties) {
         //adds the whole event to the event list
         eventList.push(treatyEvents[i]);
         //adds the year to the year list
-        yearList.push(Number(treatyEvents[i].Year));   
+        yearList.push(Number(treatyEvents[i].startYear));   
     }
     
     
@@ -796,7 +798,7 @@ function addEvents(lines, treaties) {
         var props1 = obj1.properties ? obj1.properties : obj1;
         var props2 = obj2.properties ? obj2.properties : obj2;
         
-        return props1.Year - props2.Year;
+        return props1.startYear - props2.startYear;
     })
 
     
