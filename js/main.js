@@ -187,8 +187,13 @@ function highlight (data) {
     
     var props = data.properties ? data.properties : data;
     
+    //selects just the event circle
+    d3.selectAll(".event" + "#" + props.EvID)
+            .style("fill", "rgb(240, 240, 240)");
+    
+    //selects the feature on the map as well
     d3.selectAll("#" + props.EvID)
-            .style("stroke-width", "3px");
+            .style("stroke-width", "5px");
     
     
 
@@ -202,7 +207,10 @@ function dehighlight(data) {
     
     var props = data.properties ? data.properties : data;
     d3.selectAll("#" + props.EvID)
-            .style("stroke-width", "1.5px");
+            .style("stroke-width", "2.5px");
+    
+    d3.selectAll(".event" + "#" + props.EvID)
+            .style("fill", "transparent")
 }//end dehighlight
 
 
@@ -270,7 +278,8 @@ function makeTimeline (){
                 while (found == false) {
                     //checks to see if the new year is in the usable year list
                         if (($.inArray(currentYear, yearList) == -1)) {
-                        currentYear += -1;
+                        currentYear = currentYear -1;
+                        console.log(currentYear)
                         //if year gets too high, just sets it to 2014
                         if (currentYear < 1903) {
                             currentYear = 2014;
@@ -514,7 +523,8 @@ function makeEventLine () {
                         //sets the position of the dot
                         return "translate(" + x + ", " + y + ")";
             })
-            .attr("stroke", colorize)
+            .attr("stroke", function (d) {
+                return colorize(d)})
             .attr("r", 6)
             .attr("class", "event")
             .attr("id", function(d) {
@@ -523,7 +533,7 @@ function makeEventLine () {
             .attr("fill", "transparent")
             .on("click", function (d) { 
                 var props = d.properties ? d.properties : d;
-                currentYear = props.Year; //assigns a new current year
+                currentYear = Number(props.Year); //assigns a new current year
                 selectedEvent = d; //assigns the selected event
                 var trans = d3.transform(d3.select(this).attr("transform")) //gets the transform of the point
                 var xVal = trans.translate[0]; //gets the x-value position (translation) of the clicked point
@@ -576,25 +586,25 @@ function makeEventLine () {
             .attr("fill", function(d) { //sets the color of the label
                         switch(d) {
                             case "Canada:":
-                                return "rgb(153, 154, 184)";
+                                return "rgb(27,158,119)";
                                 break;
                             case "Russia:":
-                                return "rgb(237, 223, 222)";
+                                return "rgb(217,95,2)";
                                 break;
                             case "Norway:":
-                                return "rgb(71, 81, 102)";
+                                return "rgb(117,112,179)";
                                 break;
                             case "Denmark:":
-                                return "rgb(78, 99, 99)";
+                                return "rgb(231,41,138)";
                                 break;
                             case "United States:":
-                                return "rgb(193, 209, 219)";
+                                return "rgb(102,166,30)";
                                 break;
                             case "USSR:":
-                                return "rgb(237, 223, 222)";
+                                return "rgb(217,95,2)";
                                 break;
                             default:
-                                return "rgb(51, 196, 191)";
+                                return "rgb(230,171,2)";
                         } //end switch statement
             });// end country Lables
     
@@ -913,24 +923,24 @@ function colorize (data) { //sets the color of the label
             var props = data.properties ? data.properties : data;
             switch(props.Country) {
                 case "Canada":
-                    return "rgb(153, 154, 184)";
+                    return "rgb(27,158,119)";
                     break;
                 case "Russia":
-                    return "rgb(237, 223, 222)";
+                    return "rgb(217,95,2)";
                     break;
                 case "Norway":
-                    return "rgb(71, 81, 102)";
+                    return "rgb(117,112,179)";
                     break;
                 case "Denmark":
-                    return "rgb(78, 99, 99)";
+                    return "rgb(231,41,138)";
                     break;
                 case "United States":
-                    return "rgb(193, 209, 219)";
+                    return "rgb(102,166,30)";
                     break;
                 case "USSR":
-                    return "rgb(237, 223, 222)";
+                    return "rgb(217,95,2)";
                     break;
                 default:
-                    return "rgb(51, 196, 191)";
+                    return "rgb(230,171,2)";
             } //end switch statement
 }//end colorize
