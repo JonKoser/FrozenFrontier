@@ -26,12 +26,28 @@ function setWelcomeScreen () {
     var backgroundImage = d3.select("body")
         //.style("background-image", "url(http://i.imgur.com/PKscn22.jpg?1)")
         .style("background-size", "100% auto");
-       
+
+    
+
+    
+    //creates welcome info
     var welcomeInfo = d3.select("body")
          .append("div")
          .attr("id","welcomeInfo")
          .style("width", (width - 38) + "px")
          .text("In the past century advances in human technology coupled with climatic change has made the formidable arctic accessible!");
+         
+    //creates button
+    var startButton = welcomeInfo.append("span")
+            .attr("class", "startButtonBox")
+            .html("<br><button id='startButton' class= 'Button' onclick='changeVisibility()'>Continue</button>")
+    
+    //positions button
+    d3.select("#startButton")
+            .style("left", "43%");
+
+
+               
 }
 
 //-----------------------------------------------------------------------------------

@@ -201,41 +201,40 @@ div {
 }
 
 @-webkit-keyframes clickMe {
-  0% {left:739px;}
-  10% {left:700px;}
-  20% {left:739px;}
-  30% {left:700px;}
-  40% {left:739px;}
-  50% {left:700px;}
-  60% {left:739px;}
-  70% {left:700px;}
-  80% {left:739px;}
-  90% {left:700px;}
-  100% {left:739px;}
+  0% {left:43%}
+  10% {left:42%;}
+  20% {left:43%}
+  30% {left:42%;}
+  40% {left:43%;}
+  50% {left:42%;}
+  60% {left:43%;}
+  70% {left:42%;}
+  80% {left:43%;}
+  90% {left:42%;}
+  100% {left:43%;}
 }
 @keyframes clickMe {
-  0% {left:739px;}
-  10% {left:700px;}
-  20% {left:739px;}
-  30% {left:700px;}
-  40% {left:739px;}
-  50% {left:700px;}
-  60% {left:739px;}
-  70% {left:700px;}
-  80% {left:739px;}
-  90% {left:700px;}
-  100% {left:739px;}
+  0% {left:43%}
+  10% {left:42%;}
+  20% {left:43%}
+  30% {left:42%;}
+  40% {left:43%;}
+  50% {left:42%;}
+  60% {left:43%;}
+  70% {left:42%;}
+  80% {left:43%;}
+  90% {left:42%;}
+  100% {left:43%;}
 }
 
 #startButton {
   font-size: 20px;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
-  position: absolute;
-  left: 739px;
+  position: relative;
   top: 9px;
-  -webkit-animation:clickMe 30s;
-  animation: clickMe 30s;
+  -webkit-animation:clickMe 10s;
+  animation: clickMe 10s;
 }
 
 #SkipButton {
