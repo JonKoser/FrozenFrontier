@@ -127,11 +127,12 @@ function setMap () {
     queue()
         .defer(d3.json, "data/landOutline.topojson") //load attributes from topojson
         .defer(d3.json, "data/Test_Lines.topojson")
+        .defer(d3.json, "data/Points.topojson")
         .defer(semiColonParser, "data/treatyData.csv")
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
-    function callback(error, land, lines, treaties) {
+    function callback(error, land, lines, points, treaties) {
         
         //projects the landmasses
         var landMasses = map.selectAll(".landMasses") 
@@ -154,7 +155,29 @@ function setMap () {
                 .attr("d", path)
                 .on("click", function (d) {
                     selectedEvent = d;
-                    console.log(selectedEvent.properties);
+                    currentYear = d.properties.startYear;
+                    updateInfoPanel();
+                    moveHandle();
+                    updateYear();
+                })
+                .on("mouseover", highlight)
+                .on("mouseout", dehighlight);
+        
+        //projects the point events
+        var ePoint = map.selectAll(".ePoint")
+                .data(topojson.feature(points, points.objects.Points).features)
+                .enter()
+                .append("g")
+                .attr("class", "ePoint")
+                .attr("id", function (d) {return d.properties.EvID})
+                .append("path")
+                .attr("d", path)
+                .on("click", function (d) {
+                    selectedEvent = d;
+                    currentYear = d.properties.startYear;
+                    moveHandle();
+                    updateYear();
+                    updateInfoPanel();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -163,13 +186,18 @@ function setMap () {
         //adds all events to single array (eventList)
         //also adds the years to the years array
         //put csv, polygons, and points in here also
-        addEvents(lines, treaties);
+        addEvents(lines, points, treaties);
+       
         
-        selectedEvent = eventList[0];
+        //makes things
+        makeInfoPanel();
         makeTimeline();
         makeEventLine();
+        
+        //update stuff
+        selectedEvent = eventList[0];
         updateLines();
-        makeInfoPanel();
+        updatePoints();
         updateInfoPanel();
     };//end callback
     
@@ -217,6 +245,7 @@ function dehighlight(data) {
     
     d3.selectAll(".event" + "#" + props.EvID)
             .style("fill", "transparent")
+
 }//end dehighlight
 
 
@@ -252,7 +281,34 @@ function updateLines() {
 }; //end update lines
 
 
+//-----------------------------------------------------------------------------------
 
+//function to update which lines are being displayed
+function updatePoints() {
+    var points = d3.selectAll(".ePoint")
+            .style("fill", function (d) { 
+                
+                //displays the event if it is current
+                if (currentYear >= d.properties.startYear && currentYear <= d.properties.endYear) {
+                    return colorize(d);
+                    
+                }
+                else { //if not the current year
+                    return "none";
+                }
+             })
+            .style("stroke", function(d) {
+                if (currentYear >= d.properties.startYear && currentYear <= d.properties.endYear) {
+                    return colorize(d);
+                }
+                else {
+                   return "none";
+                }
+            });
+                   
+                   
+    
+}; //end update lines
 //-----------------------------------------------------------------------------------
 
 
@@ -304,6 +360,7 @@ function makeTimeline (){
                 moveHandle();
                 updateYear();
                 updateLines();
+                updatePoints();
                 updateInfoPanel;
             })//end nextYear
         .text("<");   
@@ -335,6 +392,7 @@ function makeTimeline (){
                 moveHandle();
                 updateYear();
                 updateLines();
+                updatePoints();
                 updateInfoPanel;
             })//end nextYear
         .text(">");
@@ -457,6 +515,7 @@ function makeTimeline (){
         //update rest of map
         updateInfoPanel();
         updateLines();
+        updatePoints();
         updateYear();
     }//end brushend
 
@@ -485,7 +544,7 @@ function makeEventLine () {
     //adds a box to place events
     var eventBox = timelineBox.append("svg")
             .attr("width", width)
-            .attr("height", 96)
+            .attr("height", 116)
             .attr("class", "eventBox")
             .append("g")
             .attr("transform", "translate("+(0)+", "+(0)+")");
@@ -500,7 +559,7 @@ function makeEventLine () {
             .attr("x1", "0")
             .attr("y1", "0")
             .attr("x2", "0")
-            .attr("y2", "82")
+            .attr("y2", "102")
             .attr("class", "ghostLine")
             .style("stroke-width", 1 + "px")
             .style("stroke", "gray")
@@ -543,6 +602,10 @@ function makeEventLine () {
                             default:
                                 y=78;
                         } //end switch statement
+                        
+                        if (props.Dispute == "Yes"){
+                            y = 96;
+                        }
                 
                         //sets the position of the dot
                         return "translate(" + x + ", " + y + ")";
@@ -565,6 +628,7 @@ function makeEventLine () {
                 //update the rest of the stuff
                 moveHandle(xVal);
                 updateInfoPanel();
+                updatePoints();
                 updateLines();
                 updateYear();
             })
@@ -572,7 +636,7 @@ function makeEventLine () {
             .on("mouseout", dehighlight); //end of event
     
     //creates labels for the countries
-    var countryNames = ["Canada:", "Russia:", "Norway:", "United States:", "Denmark:", "Treaties:"]
+    var countryNames = ["Canada:", "Russia:", "Norway:", "United States:", "Denmark:", "Treaties:", "Conflicts:"]
     var countryLabels = eventBox.selectAll("countryLabels")
             .data(countryNames) //the frozen 5
             .enter()
@@ -603,6 +667,9 @@ function makeEventLine () {
                             case "Treaties:":
                                 y = 78;
                                 break;
+                            case "Conflicts:":
+                                y = 96
+                                break;
                         } //end switch statement
                         //sets the position of the label
                         return "translate(" + 5+ ", " + (y+10) + ")";
@@ -627,95 +694,39 @@ function makeEventLine () {
                             case "USSR:":
                                 return "rgb(217,95,2)";
                                 break;
-                            default:
+                            case "Treaties:":
                                 return "rgb(230,171,2)";
+                                break;
+                            case "Conflicts:":
+                                return "rgb(166,118,29)";
+                                break;
+                                
                         } //end switch statement
             });// end country Lables
-    
-
-            
-    
-    /*//creates dividing lines for the countries' events
-    var dividerLines = eventsLine.selectAll("dividerLines")
-            .data(countryNames)
-            .enter()
-            .append("g")
-            .attr("class", "dividerLines")
-            .append("svg:line")
-            .attr("x1", 0)
-            .attr("y1", function (d) {
-                        switch (d) {
-                            case "Canada:":
-                                return 6;
-                                break;
-                            case "Russia:":
-                                return 20;
-                                break;
-                            case "Norway:":
-                                return 34;
-                                break; 
-                            case "Denmark:":
-                                return 48;
-                                break;
-                            case "United States:":
-                                return 62;
-                                break;                                
-                            default:
-                                return 6;
-                        } //end switch statement         
-            
-            })
-            .attr("y2", function (d) {
-                        switch (d) {
-                            case "Canada:":
-                                return 6;
-                                break;
-                            case "Russia:":
-                                return 20;
-                                break;
-                            case "Norway:":
-                                return 34;
-                                break; 
-                            case "Denmark:":
-                                return 48;
-                                break;
-                            case "United States:":
-                                return 62;
-                                break;                                
-                            default:
-                                return 6;
-                        } //end switch statement         
-            
-            })
-            .attr("x2", width)
-            .style("stroke", "gray")
-            .style("stroke-width", "1pt")
-            .attr("transform", "translate(" + (-80)+ ", " + (0) + ")");*/
-                
     
 }// end make event line
 
 
 //-----------------------------------------------------------------------------------
 
-
+//moves the handle and gray line
 function moveHandle (xGiven) {
     
     var x
     if (!xGiven) {
-        console.log("ugh");
         x = (((timelineWidth)/(2014-1903))*(currentYear-1903))
     }
     else {
         x = xGiven;
     }
     
-    
+    //moves the slider handle
     d3.select(".handle")
         .transition() //well, that was easy
         .duration(700)
         .attr("cx", x);
     
+    //moves the gray ghost line
     d3.select(".ghostLine")
         .transition()
         .duration(700)
@@ -795,7 +806,7 @@ function changeVisibility() {
 
 
 //adds events to single array and years to year list
-function addEvents(lines, treaties) {
+function addEvents(lines, points, treaties) {
     
     //adds the line events
     var lineEvents = lines.objects.Test_Lines.geometries
@@ -809,6 +820,12 @@ function addEvents(lines, treaties) {
     
     
     //adds the point events
+    
+    var pointEvents = points.objects.Points.geometries
+    for (var i = 0; i <pointEvents.length; i++) {
+        eventList.push(pointEvents[i]);
+        yearList.push(pointEvents[i].properties.startYear);
+    }
     
     //adds the polygon events
     
@@ -947,7 +964,7 @@ function formerImg(){ //set function for backBottom that moves back through desc
 
 
 
-
+//assigns color to the event circles and the events on the map
 function colorize (data) { //sets the color of the label
             var props = data.properties ? data.properties : data;
             switch(props.Country) {
