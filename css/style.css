@@ -229,7 +229,7 @@ div {
   position: absolute;
   left: 739px;
   top: 9px;
-  -webkit-animation:myfirst 30s;
+  -webkit-animation:clickMe 30s;
   animation: clickMe 30s;
 }
 
