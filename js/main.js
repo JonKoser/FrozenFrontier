@@ -152,7 +152,7 @@ function setMap () {
     //use queue.js to parallelise asynchronous data loading
     queue()
         .defer(d3.json, "data/landOutline.topojson") //load attributes from topojson
-        .defer(d3.json, "data/Test_Lines.topojson")
+        .defer(d3.json, "data/Lines.topojson")
         .defer(d3.json, "data/Points.topojson")
         .defer(semiColonParser, "data/treatyData.csv")
         .defer(semiColonParser, "data/introText.csv")
@@ -173,7 +173,7 @@ function setMap () {
 
         //projects the line events
         var eLine = map.selectAll(".eLine")
-                .data(topojson.feature(lines, lines.objects.Test_Lines).features)
+                .data(topojson.feature(lines, lines.objects.Lines).features)
                 .enter()
                 .append("g")
                 .attr("class", "eLine")
@@ -835,7 +835,7 @@ function changeVisibility() {
 function addEvents(lines, points, treaties, slides) {
     
     //adds the line events
-    var lineEvents = lines.objects.Test_Lines.geometries
+    var lineEvents = lines.objects.Lines.geometries
     for (var i = 0; i < lineEvents.length; i++) {
         //adds the whole event to the event list
         eventList.push(lineEvents[i]);
