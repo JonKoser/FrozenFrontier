@@ -63,8 +63,6 @@ div {
     position: relative;
     /*top: 5px;*/
 
-
-
 }
 
 .map {
@@ -271,7 +269,7 @@ div {
 
 #accordion .ui-accordion-content{
     padding: 5px;
-
+    font-family: Times;
 } 
 
 .tick line {

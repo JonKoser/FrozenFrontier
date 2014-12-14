@@ -418,7 +418,7 @@ function makeTimeline (){
                 updateYear();
                 updateLines();
                 updatePoints();
-                updateInfoPanel;
+                updateInfoPanel();
             })//end nextYear
         .text(">");
     
