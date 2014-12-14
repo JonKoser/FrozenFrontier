@@ -9,13 +9,12 @@ div {
     background-color: rgb(30, 30, 30);
 }
 
-
-/*.event:hover {
-    fill: rgb(240, 240, 240);
-}*/
-
 .event {
     stroke-width: 2.5;
+}
+
+.countryLabels {
+    font-family: sans-serif;
 }
 
 
@@ -129,9 +128,9 @@ div {
     border-radius: 10px;
 }
 
-/*.line:hover {
-    stroke-width: 2.5pt;
-}*/
+.ePoly:hover {
+    stroke: yellow;
+}
 
 #title {
     color: rgb(59, 152, 204);
