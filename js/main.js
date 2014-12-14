@@ -195,6 +195,12 @@ function highlight (data) {
     d3.selectAll("#" + props.EvID)
             .style("stroke-width", "5px");
     
+    //this isn't working, but it should be!
+    $("#" + props.EvID).tooltip({
+        content: "Hello",
+        track: true
+    });
+
     
 
 } //end highlight
@@ -360,7 +366,7 @@ function makeTimeline (){
             .attr("height", 32)
             .attr("class", "timeline")
         .append("g") //give the timeline a scaleable group object
-            .attr("transform", "translate("+85+", "+25+")")
+            .attr("transform", "translate("+90+", "+25+")")
             .attr("class", "axis")
             .call(axisSpecs)
     
@@ -394,6 +400,9 @@ function makeTimeline (){
         }
         
         handle.attr("cx", axisScale(value));
+        d3.select(".ghostLine")
+            .attr("x1", axisScale(value))
+            .attr("x2", axisScale(value));
     
     } //end brushed
     
@@ -477,12 +486,25 @@ function makeEventLine () {
     var eventBox = timelineBox.append("svg")
             .attr("width", width)
             .attr("height", 96)
-            .attr("class", "eventBox");
+            .attr("class", "eventBox")
+            .append("g")
+            .attr("transform", "translate("+(0)+", "+(0)+")");
     
     //creates a line for the events to travel on
     var eventsLine = eventBox.append("g")
             .attr("class", "eventsLine")
-            .attr("transform", "translate("+85.5+", "+4+")"); //85.5 over, 4 down
+            .attr("transform", "translate("+90+", "+4+")"); //85.5 over, 4 down
+    
+    //creates a line which rides along the box as you move the slider
+    var ghostLine = eventsLine.append("line")
+            .attr("x1", "0")
+            .attr("y1", "0")
+            .attr("x2", "0")
+            .attr("y2", "82")
+            .attr("class", "ghostLine")
+            .style("stroke-width", 1 + "px")
+            .style("stroke", "gray")
+            .attr("transform", "translate("+0+", "+(0)+")");
     
     //creates the events and places them on the line
     var event = eventsLine.selectAll("event")
@@ -551,7 +573,7 @@ function makeEventLine () {
     
     //creates labels for the countries
     var countryNames = ["Canada:", "Russia:", "Norway:", "United States:", "Denmark:", "Treaties:"]
-    var countryLabels = eventsLine.selectAll("countryLabels")
+    var countryLabels = eventBox.selectAll("countryLabels")
             .data(countryNames) //the frozen 5
             .enter()
             .append("g")
@@ -583,7 +605,7 @@ function makeEventLine () {
                                 break;
                         } //end switch statement
                         //sets the position of the label
-                        return "translate(" + -80+ ", " + (y+5) + ")";
+                        return "translate(" + 5+ ", " + (y+10) + ")";
             })
             .attr("fill", function(d) { //sets the color of the label
                         switch(d) {
@@ -609,6 +631,9 @@ function makeEventLine () {
                                 return "rgb(230,171,2)";
                         } //end switch statement
             });// end country Lables
+    
+
+            
     
     /*//creates dividing lines for the countries' events
     var dividerLines = eventsLine.selectAll("dividerLines")
@@ -690,6 +715,12 @@ function moveHandle (xGiven) {
         .transition() //well, that was easy
         .duration(700)
         .attr("cx", x);
+    
+    d3.select(".ghostLine")
+        .transition()
+        .duration(700)
+        .attr("x1", x)
+        .attr("x2", x);
 }
 //-----------------------------------------------------------------------------------
 
@@ -915,10 +946,6 @@ function formerImg(){ //set function for backBottom that moves back through desc
 //-----------------------------------------------------------------------------------
 
 
-
-
-
-//-----------------------------------------------------------------------------------
 
 
 function colorize (data) { //sets the color of the label
