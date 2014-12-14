@@ -1,3 +1,4 @@
+
 body {
   background: rgb(50, 50, 50);
 }
@@ -194,6 +195,33 @@ div {
     border-radius: 50%;
 }
 
+@-webkit-keyframes clickMe {
+  0% {left:739px;}
+  10% {left:700px;}
+  20% {left:739px;}
+  30% {left:700px;}
+  40% {left:739px;}
+  50% {left:700px;}
+  60% {left:739px;}
+  70% {left:700px;}
+  80% {left:739px;}
+  90% {left:700px;}
+  100% {left:739px;}
+}
+@keyframes clickMe {
+  0% {left:739px;}
+  10% {left:700px;}
+  20% {left:739px;}
+  30% {left:700px;}
+  40% {left:739px;}
+  50% {left:700px;}
+  60% {left:739px;}
+  70% {left:700px;}
+  80% {left:739px;}
+  90% {left:700px;}
+  100% {left:739px;}
+}
+
 #startButton {
   font-size: 20px;
   padding: 10px 20px 10px 20px;
@@ -201,6 +229,8 @@ div {
   position: absolute;
   left: 739px;
   top: 9px;
+  -webkit-animation:myfirst 30s;
+  animation: clickMe 30s;
 }
 
 #SkipButton {
