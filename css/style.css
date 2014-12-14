@@ -202,15 +202,15 @@ div {
 }
 
 @-webkit-keyframes clickMe {
-  0% {left:739px;}
-  50% {left:720px;}
-  100% {left:739px;}
+  0% {left:43%;}
+  50% {left:41%;}
+  100% {left:43%;}
 }
 
 @keyframes clickMe {
-  0% {left:739px;}
-  50% {left:720px;}
-  100% {left:739px;}
+  0% {left:43%;}
+  50% {left:41%;}
+  100% {left:43%;}
 
 }
 
@@ -219,7 +219,7 @@ div {
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   position: relative;
-  top: 9px;
+  left: 43%;
 
   animation: clickMe 2s;
   animation-iteration-count: infinite;
@@ -305,5 +305,6 @@ accordion .ui-accordion-header {
 
 #intro-Slides{
   position: absolute;
-  top: 100px;
+  top: 50px;
+  margin: 5px;
 }

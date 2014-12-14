@@ -41,7 +41,7 @@ function setWelcomeScreen () {
     //creates button
     var startButton = welcomeInfo.append("span")
             .attr("class", "startButtonBox")
-            .html("<br><button id='startButton' class= 'Button' onclick='changeVisibility()'>Continue</button>")
+            .html("<br><br><button id='startButton' class= 'Button' onclick='changeVisibility()'>Continue</button>")
     
     //positions button
     d3.select("#startButton")
@@ -90,7 +90,8 @@ function setMap () {
             .append("div")
             .attr("class", "shadowBox")
             .attr("id", "mapContainerShadow")
-            .style("width", width + "px");
+            .style("width", mapWidth+28 + "px")
+            .style("height", mapHeight+28+"px");
     
     //create a new svg element with the above dimensions
     var map = d3.select(".mapContainer")
