@@ -175,6 +175,7 @@ div {
     -moz-border-radius: 25;
     font-family: Times;
     color: #3b97cc;
+    cursor: pointer;
 }
 
 
@@ -202,28 +203,12 @@ div {
 
 @-webkit-keyframes clickMe {
   0% {left:739px;}
-  10% {left:700px;}
-  20% {left:739px;}
-  30% {left:700px;}
-  40% {left:739px;}
-  50% {left:700px;}
-  60% {left:739px;}
-  70% {left:700px;}
-  80% {left:739px;}
-  90% {left:700px;}
+  50% {left:720px;}
   100% {left:739px;}
 }
 @keyframes clickMe {
   0% {left:739px;}
-  10% {left:700px;}
-  20% {left:739px;}
-  30% {left:700px;}
-  40% {left:739px;}
-  50% {left:700px;}
-  60% {left:739px;}
-  70% {left:700px;}
-  80% {left:739px;}
-  90% {left:700px;}
+  50% {left:720px;}
   100% {left:739px;}
 }
 
@@ -234,9 +219,11 @@ div {
   position: absolute;
   left: 739px;
   top: 9px;
-  -webkit-animation:clickMe 30s;
-  animation: clickMe 30s;
-}
+
+  animation: clickMe 2s;
+  animation-iteration-count: infinite;
+  -webkit-animation:clickMe 2s;
+  -webkit-animation-iteration-count: infinite;
 
 #SkipButton {
     font-size: 10px;
@@ -310,4 +297,9 @@ accordion .ui-accordion-header {
 
 #mapContainerShadow {
   height: 720px;
+}
+
+#intro-Slides{
+  position: absolute;
+  top: 100px;
 }

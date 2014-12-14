@@ -7,6 +7,7 @@ var timelineWidth = width-140;
 var selectedEvent; //should start with the 1903 event
 var img = 0;
 var infoPanelBoxWidth = 270;
+var introSlides = [];
 
 
 //begin script when window loads
@@ -129,10 +130,11 @@ function setMap () {
         .defer(d3.json, "data/Test_Lines.topojson")
         .defer(d3.json, "data/Points.topojson")
         .defer(semiColonParser, "data/treatyData.csv")
+        .defer(semiColonParser, "data/introText.csv")
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
-    function callback(error, land, lines, points, treaties) {
+    function callback(error, land, lines, points, treaties, slides) {
         
         //projects the landmasses
         var landMasses = map.selectAll(".landMasses") 
@@ -186,7 +188,7 @@ function setMap () {
         //adds all events to single array (eventList)
         //also adds the years to the years array
         //put csv, polygons, and points in here also
-        addEvents(lines, points, treaties);
+        addEvents(lines, points, treaties, slides);
        
         
         //makes things
@@ -805,7 +807,7 @@ function changeVisibility() {
 
 
 //adds events to single array and years to year list
-function addEvents(lines, points, treaties) {
+function addEvents(lines, points, treaties, slides) {
     
     //adds the line events
     var lineEvents = lines.objects.Test_Lines.geometries
@@ -837,7 +839,14 @@ function addEvents(lines, points, treaties) {
         //adds the year to the year list
         yearList.push(Number(treatyEvents[i].startYear));   
     }
-    
+
+    var intro = slides;
+
+    for (var i = 0; i < intro.length; i++) {
+        introSlides.push(intro[i]);
+        
+    }
+    console.log(introSlides[0].slideText)
     
     //sorts the event list from first to last by year
     eventList.sort(function(obj1, obj2) {
@@ -872,7 +881,11 @@ function setIntroBox () {
     introContainer.append("text")
         .attr("class", "introTitle")
         .text("Dividing Oceans: The Basics")
-        .append("hr");
+        .append("hr")
+
+    introContainer.append("p")
+        .attr("id", "intro-Slides")
+        .text(introSlides[img].slideText);
 
     imageBox.append("img")
         .attr("class", "oceanDivide")
@@ -922,6 +935,9 @@ function nextImg(){ //loads next ocean divison image
             .attr("src", "img/OceanDivide"+is+".png")
             .style("display", "block");
 
+        d3.select("#intro-Slides")
+            .text(introSlides[img].slideText);
+
         d3.select("#backButton")
             .style("color", "#3b97cc");
 
@@ -932,9 +948,7 @@ function nextImg(){ //loads next ocean divison image
             .text("Close")       
         };
     if (img == 4){
-
         hideIntro();
-
     };
 }; // End of nextImg
 
@@ -946,6 +960,8 @@ function formerImg(){ //set function for backBottom that moves back through desc
             .attr("src", "img/OceanDivide"+is+".png");
         d3.select("#nextButton")
             .html("Next");
+        d3.select("#intro-Slides")
+            .text(introSlides[img].slideText);
 
         if (img == 0){
             d3.select(".oceanDivide")
