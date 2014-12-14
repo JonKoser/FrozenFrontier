@@ -9,11 +9,6 @@ div {
     background-color: rgb(30, 30, 30);
 }
 
-.timelineBox {
-    /*margin-top: 5px;*/
-    height: 150px;
-    
-}
 
 /*.event:hover {
     fill: rgb(240, 240, 240);
@@ -148,20 +143,20 @@ div {
 
 
 #welcomeInfo {
-    margin-top: 10px;
     padding: 10px;
     background-color: #323232;
     color: #828281;
+    position: absolute;
+    z-index: 10;
 }
 
 .introContainer {
-    position: relative;
-    top: -722px;
-    left: -6px;
-    margin: 5px;
-    width: 252px;
+    position: absolute;
+    width: 269px;
     height: 450px;
-
+    top: 20%;
+    left: 35%;
+    z-index: 9;
 }
 
 .Button {
@@ -290,21 +285,19 @@ accordion .ui-accordion-header {
 }
 
 .shadowBox {
-  background: rgba(50,50,50, 0.8);
+  background: rgba(50,50,50, 0.9);
   position: absolute;
-  z-index: 5;
+  z-index: 8;
 }
 
-#timelineBoxShadow{
-  height: 138px;
-}
-
-#mapContainerShadow {
-  height: 720px;
+#pageShadow {
+    left: 0;
+    
 }
 
 #intro-Slides{
   position: absolute;
   top: 50px;
   margin: 5px;
+  color: rgb(240, 240, 240);
 }

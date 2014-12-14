@@ -43,9 +43,7 @@ function setWelcomeScreen () {
             .attr("class", "startButtonBox")
             .html("<br><br><button id='startButton' class= 'Button' onclick='changeVisibility()'>Continue</button>")
     
-    //positions button
-    d3.select("#startButton")
-            .style("left", "43%");
+
 
 
                
@@ -59,13 +57,23 @@ function setMap () {
     var mapWidth = width - (infoPanelBoxWidth) - 28 - 34,
       mapHeight = mapWidth;
     
+    var pageShadow = d3.select("body")
+            .append("div")
+            .attr("class", "shadowBox")
+            .attr("id", "pageShadow")
+            .style("width", width + "px")
+            .style("height", "1000px")
+    
     var timelineBox = d3.select("body")
             .append("div")
             .attr("class", "timelineBox")
             .style("display","none")
-            .append("div")
+            .style("height", "150px")
+            /*.append("div")
             .attr("class", "shadowBox")
-            .attr("id", "timelineBoxShadow");
+            .attr("id", "timelineBoxShadow")
+            .style("width", width + "px")
+            .style("height", "150px");*/
     
     var infoPanelBox = d3.select("body")
             .append("div")
@@ -86,12 +94,12 @@ function setMap () {
             .attr("class", "displayYear")
             .text(currentYear);
 
-    var mapContainerShadow = d3.select(".mapContainer")
+    /*var mapContainerShadow = d3.select(".mapContainer")
             .append("div")
             .attr("class", "shadowBox")
             .attr("id", "mapContainerShadow")
             .style("width", mapWidth+28 + "px")
-            .style("height", mapHeight+28+"px");
+            .style("height", mapHeight+28+"px");*/
     
     //create a new svg element with the above dimensions
     var map = d3.select(".mapContainer")
@@ -938,8 +946,8 @@ function hideIntro(){
         d3.select(".shadowBox")
             .style("display","none");
 
-        d3.select("#mapContainerShadow")
-            .style("display","none");
+        /*d3.select("#mapContainerShadow")
+            .style("display","none");*/
 
 
 }; // end of hide
