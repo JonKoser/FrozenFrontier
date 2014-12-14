@@ -187,6 +187,9 @@ function setMap () {
                     updateInfoPanel();
                     moveHandle();
                     updateYear();
+                    updatePoints();
+                    updateLines();
+                    updatePolys();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -203,9 +206,12 @@ function setMap () {
                 .on("click", function (d) {
                     selectedEvent = d;
                     currentYear = d.properties.startYear;
+                    updateInfoPanel();
                     moveHandle();
                     updateYear();
-                    updateInfoPanel();
+                    updatePoints();
+                    updateLines();
+                    updatePolys();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -222,9 +228,12 @@ function setMap () {
                 .on("click", function (d) {
                     selectedEvent = d;
                     currentYear = d.properties.startYear;
+                    updateInfoPanel();
                     moveHandle();
                     updateYear();
-                    updateInfoPanel();
+                    updatePoints();
+                    updateLines();
+                    updatePolys();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -353,7 +362,7 @@ function updatePoints() {
                 }
             });         
     
-}; //end update lines
+}; //end update points
 //-----------------------------------------------------------------------------------
 
 
@@ -367,6 +376,7 @@ function updatePolys() {
                     return colorize(d);
                 }
                 else { //if not the current year
+                    console.log("done")
                     return "none";
                 }
              })
@@ -379,7 +389,7 @@ function updatePolys() {
                 }
             });         
     
-}; //end update lines
+}; //end update polys
 
 
 //-----------------------------------------------------------------------------------
