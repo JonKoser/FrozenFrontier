@@ -154,12 +154,13 @@ function setMap () {
         .defer(d3.json, "data/landOutline.topojson") //load attributes from topojson
         .defer(d3.json, "data/Lines.topojson")
         .defer(d3.json, "data/Points.topojson")
+        .defer(d3.json, "data/Polygons.topojson")
         .defer(semiColonParser, "data/treatyData.csv")
         .defer(semiColonParser, "data/introText.csv")
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
-    function callback(error, land, lines, points, treaties, slides) {
+    function callback(error, land, lines, points, polygons, treaties, slides) {
         
         //projects the landmasses
         var landMasses = map.selectAll(".landMasses") 
@@ -208,12 +209,32 @@ function setMap () {
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
+        
+        //projects the point events
+        var ePoly = map.selectAll(".ePoly")
+                .data(topojson.feature(polygons, polygons.objects.Polygons).features)
+                .enter()
+                .append("g")
+                .attr("class", "ePoly")
+                .attr("id", function (d) {return d.properties.EvID})
+                .append("path")
+                .attr("d", path)
+                .on("click", function (d) {
+                    selectedEvent = d;
+                    currentYear = d.properties.startYear;
+                    moveHandle();
+                    updateYear();
+                    updateInfoPanel();
+                })
+                .on("mouseover", highlight)
+                .on("mouseout", dehighlight);
+        
        
 
         //adds all events to single array (eventList)
         //also adds the years to the years array
         //put csv, polygons, and points in here also
-        addEvents(lines, points, treaties, slides);
+        addEvents(lines, points, polygons, treaties, slides);
        
         
         //makes things
@@ -225,6 +246,7 @@ function setMap () {
         selectedEvent = eventList[0];
         updateLines();
         updatePoints();
+        updatePolys();
         updateInfoPanel();
     };//end callback
     
@@ -329,13 +351,38 @@ function updatePoints() {
                 else {
                    return "none";
                 }
-            });
-                   
-                   
+            });         
     
 }; //end update lines
 //-----------------------------------------------------------------------------------
 
+
+//function to update which lines are being displayed
+function updatePolys() {
+    var polys = d3.selectAll(".ePoly")
+            .style("fill", function (d) { 
+                
+                //displays the event if it is current
+                if (currentYear >= d.properties.startYear && currentYear <= d.properties.endYear) {
+                    return colorize(d);
+                }
+                else { //if not the current year
+                    return "none";
+                }
+             })
+            .style("stroke", function(d) {
+                if (currentYear >= d.properties.startYear && currentYear <= d.properties.endYear) {
+                    return colorize(d);
+                }
+                else {
+                   return "none";
+                }
+            });         
+    
+}; //end update lines
+
+
+//-----------------------------------------------------------------------------------
 
 
 //makes the timeline
@@ -386,6 +433,7 @@ function makeTimeline (){
                 updateYear();
                 updateLines();
                 updatePoints();
+                updatePolys();
                 updateInfoPanel;
             })//end nextYear
         .text("<");   
@@ -417,6 +465,7 @@ function makeTimeline (){
                 moveHandle();
                 updateYear();
                 updateLines();
+                updatePolys();
                 updatePoints();
                 updateInfoPanel();
             })//end nextYear
@@ -541,6 +590,7 @@ function makeTimeline (){
         updateInfoPanel();
         updateLines();
         updatePoints();
+        updatePolys();
         updateYear();
     }//end brushend
 
@@ -656,6 +706,7 @@ function makeEventLine () {
                 updateInfoPanel();
                 updatePoints();
                 updateLines();
+                updatePolys();
                 updateYear();
             })
             .on("mouseover", highlight)
@@ -832,7 +883,7 @@ function changeVisibility() {
 
 
 //adds events to single array and years to year list
-function addEvents(lines, points, treaties, slides) {
+function addEvents(lines, points, polygons, treaties, slides) {
     
     //adds the line events
     var lineEvents = lines.objects.Lines.geometries
@@ -846,18 +897,25 @@ function addEvents(lines, points, treaties, slides) {
     
     
     //adds the point events
-    
     var pointEvents = points.objects.Points.geometries
     for (var i = 0; i <pointEvents.length; i++) {
         eventList.push(pointEvents[i]);
         yearList.push(pointEvents[i].properties.startYear);
     }
     
+    
+    
     //adds the polygon events
+    var polyEvents = polygons.objects.Polygons.geometries
+    for (var i = 0; i <polyEvents.length; i++) {
+        eventList.push(polyEvents[i]);
+        yearList.push(polyEvents[i].properties.startYear);
+    }
+    
+    
     
     //adds the csv events
     var treatyEvents = treaties;
-
     for (var i = 0; i < treatyEvents.length; i++) {
         //adds the whole event to the event list
         eventList.push(treatyEvents[i]);
@@ -865,20 +923,24 @@ function addEvents(lines, points, treaties, slides) {
         yearList.push(Number(treatyEvents[i].startYear));   
     }
 
+    
+    
+    
+    //should this be here?
     var intro = slides;
-
     for (var i = 0; i < intro.length; i++) {
         introSlides.push(intro[i]);
         
     }
     console.log(introSlides[0].slideText)
     
+    
+    
+    
     //sorts the event list from first to last by year
     eventList.sort(function(obj1, obj2) {
-        
         var props1 = obj1.properties ? obj1.properties : obj1;
         var props2 = obj2.properties ? obj2.properties : obj2;
-        
         return props1.startYear - props2.startYear;
     })
 
