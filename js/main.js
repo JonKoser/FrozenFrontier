@@ -271,7 +271,6 @@ function updateLines() {
                 //displays the event if it is current
                 if (currentYear >= d.properties.startYear && currentYear <= d.properties.endYear) {
                     return colorize(d);
-                    
                 }
                 else { //if not the current year
                     return "none";
@@ -291,7 +290,6 @@ function updatePoints() {
                 //displays the event if it is current
                 if (currentYear >= d.properties.startYear && currentYear <= d.properties.endYear) {
                     return colorize(d);
-                    
                 }
                 else { //if not the current year
                     return "none";
@@ -611,7 +609,8 @@ function makeEventLine () {
                         return "translate(" + x + ", " + y + ")";
             })
             .attr("stroke", function (d) {
-                return colorize(d)})
+                    return colorize(d)
+            })
             .attr("r", 6)
             .attr("class", "event")
             .attr("id", function(d) {
@@ -686,7 +685,7 @@ function makeEventLine () {
                                 return "rgb(117,112,179)";
                                 break;
                             case "Denmark:":
-                                return "rgb(231,41,138)";
+                                return "rgb(166,118,29)";
                                 break;
                             case "United States:":
                                 return "rgb(102,166,30)";
@@ -698,7 +697,7 @@ function makeEventLine () {
                                 return "rgb(230,171,2)";
                                 break;
                             case "Conflicts:":
-                                return "rgb(166,118,29)";
+                                return "rgb(231,41,138)";
                                 break;
                                 
                         } //end switch statement
@@ -966,7 +965,8 @@ function formerImg(){ //set function for backBottom that moves back through desc
 
 //assigns color to the event circles and the events on the map
 function colorize (data) { //sets the color of the label
-            var props = data.properties ? data.properties : data;
+        var props = data.properties ? data.properties : data;
+        
             switch(props.Country) {
                 case "Canada":
                     return "rgb(27,158,119)";
@@ -978,7 +978,7 @@ function colorize (data) { //sets the color of the label
                     return "rgb(117,112,179)";
                     break;
                 case "Denmark":
-                    return "rgb(231,41,138)";
+                    return "rgb(166,118,29)";
                     break;
                 case "United States":
                     return "rgb(102,166,30)";
@@ -987,6 +987,11 @@ function colorize (data) { //sets the color of the label
                     return "rgb(217,95,2)";
                     break;
                 default:
-                    return "rgb(230,171,2)";
+                    if (props.Dispute == "Yes") {
+                        return "rgb(231,41,138)"
+                    }
+                    else {
+                        return "rgb(230,171,2)";
+                    }
             } //end switch statement
 }//end colorize
