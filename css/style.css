@@ -153,8 +153,8 @@ div {
 .introContainer {
     position: absolute;
     width: 269px;
-    height: 450px;
-    top: 20%;
+    height: 500px;
+    top: 15%;
     left: 35%;
     z-index: 9;
 }
@@ -229,7 +229,7 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 220px;
+    top: 270px;
     left: 200px;
 }
 
@@ -238,7 +238,7 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 220px;
+    top: 270px;
     left: 90px;
 }
 
@@ -247,7 +247,7 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 220px;
+    top: 270px;
     left: 0px;
 }
 
@@ -264,7 +264,7 @@ div {
 .imageBox {
   position: relative;
   border: none;
-  top: 220px;
+  top: 270px;
   width: 250px; 
   height: 198px;
 }
@@ -288,6 +288,7 @@ accordion .ui-accordion-header {
   background: rgba(50,50,50, 0.9);
   position: absolute;
   z-index: 8;
+  border-width: 0px;
 }
 
 #pageShadow {
@@ -297,7 +298,7 @@ accordion .ui-accordion-header {
 
 #intro-Slides{
   position: absolute;
-  top: 50px;
+  top: 35px;
   margin: 5px;
   color: rgb(240, 240, 240);
 }
