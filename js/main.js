@@ -33,6 +33,9 @@ function setWelcomeScreen () {
     var welcomeInfo = d3.select("body")
          .append("div")
          .attr("id","welcomeInfo")
+         .style("width", function() {
+             return ($("#titleContainer").width() - 20) + "px";
+         })
          .append("p")
          .text("In the past century advances in human technology coupled with climatic change has made the formidable arctic accessible!");
          
