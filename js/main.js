@@ -917,7 +917,7 @@ function updateInfoPanel() {
             .text(description);
     d3.select("#eventName")
             .text(name);
-    
+    console.log("why u no update");
 
 }; //end update info panel
 

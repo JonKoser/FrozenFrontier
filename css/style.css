@@ -251,7 +251,7 @@ div {
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   position: relative;
-  left: 43%;
+  margin-left: 50%;
   text-align:center;
 
   animation: clickMe 2s;
