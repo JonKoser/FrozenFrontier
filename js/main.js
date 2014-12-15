@@ -10,6 +10,7 @@ var infoPanelBoxWidth = 270;
 var introSlides = [];
 
 
+
 //begin script when window loads
 window.onload = initialize();
 
@@ -18,7 +19,7 @@ window.onload = initialize();
 //the first function called once the html is loaded
 function initialize() {
     setMap();
-    setWelcomeScreen();
+ 
 };
 
 //-----------------------------------------------------------------------------------
@@ -36,19 +37,16 @@ function setWelcomeScreen () {
          .style("width", function() {
              return ($("#titleContainer").width() - 20) + "px";
          })
-         .append("p")
-         .text("In the past century advances in human technology coupled with climatic change has made the formidable arctic accessible!");
-         
+        .append("p")
+        .attr("id", "intro")
+        .text(welcomeText);
+
     //creates button
     var startButton = welcomeInfo.append("span")
             .attr("class", "startButtonBox")
             .html("<br><br><button id='startButton' class= 'Button' onclick='changeVisibility()'>Continue</button>")
-    
-
-
-
-               
-}
+                
+};
 
 //-----------------------------------------------------------------------------------
 
@@ -167,11 +165,26 @@ function setMap () {
         .defer(d3.json, "data/Polygons.topojson")
         .defer(semiColonParser, "data/treatyData.csv")
         .defer(semiColonParser, "data/introText.csv")
+        //.defer(semiColonParser, "data/welcome.csv")
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
     function callback(error, land, countries, lines, points, polygons, treaties, slides) {
-        
+
+        //-------------------->>>>>>>>>>>>>>>THIS IS NOT OPTIMAL<<<<<<<<<<<<------------------------------------------
+        var intro = slides;
+            for (var i = 0; i < intro.length; i++) {
+             introSlides.push(intro[i]);
+            }
+
+
+        welcomeText = introSlides[4].slideText;
+        setWelcomeScreen();
+
+        //-------------------------------------------------------------------------------------------------------------
+
+
+
         //projects the landmasses
         var landMasses = map.selectAll(".landMasses") 
                 .data(topojson.feature(land, land.objects.landOutline).features)
@@ -278,7 +291,11 @@ function setMap () {
         updatePoints();
         updatePolys();
         updateInfoPanel();
+
+
     };//end callback
+
+
     
     
 };// end setMap
@@ -930,6 +947,7 @@ function changeVisibility() {
 
 
 
+
 //-----------------------------------------------------------------------------------
 //Creating introduction to concepts of ocean annexing law (UNCLOS)
 
@@ -979,12 +997,7 @@ function addEvents(lines, points, polygons, treaties, slides) {
     
     
     //should this be here?
-    var intro = slides;
-    for (var i = 0; i < intro.length; i++) {
-        introSlides.push(intro[i]);
-        
-    }
-    console.log(introSlides[0].slideText)
+
     
     
     
@@ -1067,6 +1080,8 @@ function hideIntro(){
 
 }; // end of hide
 
+
+
 function nextImg(){ //loads next ocean divison image
     img += 1;
     if (img < 4 && img > 0){
@@ -1077,6 +1092,8 @@ function nextImg(){ //loads next ocean divison image
 
         d3.select("#intro-Slides")
             .text(introSlides[img].slideText);
+
+
 
         d3.select("#backButton")
             .style("color", "#3b97cc");
