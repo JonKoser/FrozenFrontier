@@ -17,6 +17,9 @@ div {
     font-family: sans-serif;
 }
 
+.countries{
+    opacity: 0.3;
+}
 
 .axis .domain {
   fill: none;

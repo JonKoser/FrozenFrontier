@@ -287,6 +287,10 @@ function highlight (data) {
     
     var countries = props.Country;
     var countriesInvolved = countries.split(', ');
+    for (var i = 0; i < countriesInvolved.length; i++) {
+        d3.select("#" + countriesInvolved[i])
+            .style("fill", colorize(data))
+    };
     console.log(countriesInvolved);
     
     
@@ -312,7 +316,15 @@ function dehighlight(data) {
             .style("stroke-width", "2.5px");
     
     d3.selectAll(".event" + "#" + props.EvID)
+            .style("fill", "transparent");
+    
+    var countries = props.Country;
+    var countriesInvolved = countries.split(', ');
+    for (var i = 0; i < countriesInvolved.length; i++) {
+        d3.select("#" + countriesInvolved[i])
             .style("fill", "transparent")
+    };
+    console.log(countriesInvolved);
 
 }//end dehighlight
 
