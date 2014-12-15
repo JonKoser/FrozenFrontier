@@ -302,7 +302,7 @@ function highlight (data) {
     var countriesInvolved = countries.split(', ');
     for (var i = 0; i < countriesInvolved.length; i++) {
         d3.select("#" + countriesInvolved[i])
-            .style("fill", colorize(data))
+            .style("fill", "black");//colorize(data))
     };
     console.log(countriesInvolved);
     
