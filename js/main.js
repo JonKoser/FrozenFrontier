@@ -50,9 +50,21 @@ function setWelcomeScreen () {
 
 //set choropleth map parameters
 function setMap () {
-
-    var mapWidth = width - (infoPanelBoxWidth) - 28 - 34,
-      mapHeight = mapWidth;
+    
+    /*var mapWidth = getWidth();
+    function getWidth () {
+        if (width >= window.innerHeight) {
+                return window.innerHeight;
+        }
+        else {
+            return (width - (infoPanelBoxWidth) - 28 - 34);
+        }
+    };
+    console.log(mapWidth);*/
+    
+    var mapWidth = (width - (infoPanelBoxWidth) - 28 - 34);
+    
+    var mapHeight = mapWidth;
     
     var pageShadow = d3.select("body")
             .append("div")
