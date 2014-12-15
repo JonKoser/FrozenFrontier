@@ -174,7 +174,8 @@ function setMap () {
                 .append("path")
                 .attr("id", function (d) {return d.properties.sovereignt})
                 .attr("d", path)
-                .attr("fill", "transparent");
+                .attr("fill", "transparent")
+                .text(function (d){ return d.properties.sovereignt});
         
         //projects the line events
         var eLine = map.selectAll(".eLine")
