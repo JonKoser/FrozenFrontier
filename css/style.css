@@ -185,7 +185,7 @@ div {
 .introContainer {
     position: absolute;
     width: 269px;
-    height: 500px;
+    height: 520px;
     top: 15%;
     left: 35%;
     z-index: 9;
@@ -261,8 +261,8 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 270px;
-    left: 200px;
+    top: 290px;
+    left: 223px;
 }
 
 #nextButton {
@@ -270,8 +270,8 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 270px;
-    left: 90px;
+    top: 290px;
+    left: 100px;
 }
 
 #backButton {
@@ -279,8 +279,8 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 270px;
-    left: 0px;
+    top: 290px;
+    left: 15px;
 }
 
 
@@ -296,7 +296,7 @@ div {
 .imageBox {
   position: relative;
   border: none;
-  top: 270px;
+  top: 293px;
   width: 250px; 
   height: 198px;
 }
