@@ -327,6 +327,7 @@ function highlight (data) {
             .style("border", "red")
             .style("border-width", "5px");
     };
+
     console.log(countriesInvolved);
     
     
@@ -943,6 +944,9 @@ function changeVisibility() {
     d3.select("#startButton")
         .style("display", "none");
     setIntroBox();
+    d3.select("#titleContainer")
+        .style("top","5px")
+        .style("text-align","left");
 }; //end changeVisibility
 
 
