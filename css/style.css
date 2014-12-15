@@ -1,3 +1,27 @@
+@font-face {
+    font-family: pageTitle;
+    src: url('fonts/ANTARG.TTF');
+}
+
+@font-face {
+    font-family: titleFont;
+    src: url('fonts/arc.ttf');
+}
+
+@font-face {
+    font-family: bodyText;
+    src: url('fonts/Exo2.0-Light.otf');
+}
+
+@font-face {
+    font-family: thinText;
+    src: url('fonts/Exo2.0-Thin.otf');
+}
+
+p {
+    font-family: bodyText;
+    margin: 0px;
+}
 
 body {
   background: rgb(50, 50, 50);
@@ -14,7 +38,8 @@ div {
 }
 
 .countryLabels {
-    font-family: sans-serif;
+    font-family: bodyText;
+    letter-spacing: 1pt;
 }
 
 .countries{
@@ -136,6 +161,9 @@ div {
 }
 
 #title {
+    font-family: pageTitle;
+    letter-spacing: 2px;
+    font-size: 26pt;
     color: rgb(59, 152, 204);
     margin-top: 5px;
     margin-left: 5px;
@@ -258,10 +286,10 @@ div {
 
 .introTitle {
     position: absolute;
-    font-family: Times;
+    font-family: titleFont;
+    font-size: 18pt;
     top: 5px;
     left: 20px;
-    font-size: 14pt;
     color: rgb(50, 125, 190);
 }
 
@@ -284,8 +312,12 @@ div {
 }
 
 
-accordion .ui-accordion-header {
-    padding: 5px;
+#accordion .ui-accordion-header {
+    padding: 10px;
+    font-family: titleFont;
+    letter-spacing: 1px;
+    text-align: center;
+    font-size: 15pt;
 }
 
 .shadowBox {
@@ -302,7 +334,9 @@ accordion .ui-accordion-header {
 
 #intro-Slides{
   position: absolute;
-  top: 35px;
+  text-align: center;
+  font-family: thinText;
+  top: 40px;
   margin: 5px;
   color: rgb(240, 240, 240);
 }

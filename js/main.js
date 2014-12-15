@@ -33,6 +33,7 @@ function setWelcomeScreen () {
     var welcomeInfo = d3.select("body")
          .append("div")
          .attr("id","welcomeInfo")
+         .append("p")
          .text("In the past century advances in human technology coupled with climatic change has made the formidable arctic accessible!");
          
     //creates button
@@ -200,13 +201,13 @@ function setMap () {
                 .attr("d", path)
                 .on("click", function (d) {
                     selectedEvent = d;
-                    currentYear = d.properties.startYear;
+                    //currentYear = d.properties.startYear;
                     updateInfoPanel();
-                    moveHandle();
-                    updateYear();
-                    updatePoints();
-                    updateLines();
-                    updatePolys();
+                    //moveHandle();
+                    //updateYear();
+                    //updatePoints();
+                    //updateLines();
+                    //updatePolys();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -222,13 +223,13 @@ function setMap () {
                 .attr("d", path)
                 .on("click", function (d) {
                     selectedEvent = d;
-                    currentYear = d.properties.startYear;
+                    //currentYear = d.properties.startYear;
                     updateInfoPanel();
-                    moveHandle();
-                    updateYear();
-                    updatePoints();
-                    updateLines();
-                    updatePolys();
+                    //moveHandle();
+                    //updateYear();
+                    //updatePoints();
+                    //updateLines();
+                    //updatePolys();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -244,13 +245,13 @@ function setMap () {
                 .attr("d", path)
                 .on("click", function (d) {
                     selectedEvent = d;
-                    currentYear = d.properties.startYear;
+                    //currentYear = d.properties.startYear;
                     updateInfoPanel();
-                    moveHandle();
-                    updateYear();
-                    updatePoints();
-                    updateLines();
-                    updatePolys();
+                    //moveHandle();
+                    //updateYear();
+                    //updatePoints();
+                    //updateLines();
+                    //updatePolys();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -302,7 +303,9 @@ function highlight (data) {
     var countriesInvolved = countries.split(', ');
     for (var i = 0; i < countriesInvolved.length; i++) {
         d3.select("#" + countriesInvolved[i])
-            .style("fill", "black");//colorize(data))
+            .style("fill", "black")//colorize(data))
+            .style("border", "red")
+            .style("border-width", "5px");
     };
     console.log(countriesInvolved);
     
@@ -336,6 +339,7 @@ function dehighlight(data) {
     for (var i = 0; i < countriesInvolved.length; i++) {
         d3.select("#" + countriesInvolved[i])
             .style("fill", "transparent")
+            .style("border", "none")
     };
     console.log(countriesInvolved);
 
@@ -463,7 +467,7 @@ function makeTimeline (){
                         console.log(currentYear)
                         //if year gets too high, just sets it to 2014
                         if (currentYear < 1903) {
-                            currentYear = 2014;
+                            currentYear = 1903;
                             found = true;
                         }
                     }
@@ -495,7 +499,7 @@ function makeTimeline (){
                         currentYear++;
                         //if year gets too high, just sets it to 2014
                         if (currentYear > 2014) {
-                            currentYear = 1903;
+                            currentYear = 2014;
                             found = true;
                         }
                     }
@@ -758,7 +762,7 @@ function makeEventLine () {
             .on("mouseout", dehighlight); //end of event
     
     //creates labels for the countries
-    var countryNames = ["Canada:", "Russia:", "Norway:", "United States:", "Denmark:", "Treaties:", "Conflicts:"]
+    var countryNames = ["Canada:", "Russia:", "Norway:", "USA:", "Denmark:", "Treaties:", "Conflicts:"]
     var countryLabels = eventBox.selectAll("countryLabels")
             .data(countryNames) //the frozen 5
             .enter()
@@ -783,7 +787,7 @@ function makeEventLine () {
                             case "Denmark:":
                                 y=48;
                                 break;
-                            case "United States:":
+                            case "USA:":
                                 y=62;
                                 break;  
                             case "Treaties:":
@@ -810,7 +814,7 @@ function makeEventLine () {
                             case "Denmark:":
                                 return "rgb(166,118,29)";
                                 break;
-                            case "United States:":
+                            case "USA:":
                                 return "rgb(102,166,30)";
                                 break;
                             case "USSR:":
@@ -1014,6 +1018,7 @@ function setIntroBox () {
         .attr("class", "introTitle")
         .text("Dividing Oceans: The Basics")
         .append("hr")
+        .style("margin", "0px")
 
     introContainer.append("p")
         .attr("id", "intro-Slides")
