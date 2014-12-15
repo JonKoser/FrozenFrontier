@@ -26,16 +26,13 @@ function initialize() {
 function setWelcomeScreen () {
     var backgroundImage = d3.select("body")
         //.style("background-image", "url(http://i.imgur.com/PKscn22.jpg?1)")
-        .style("background-size", "100% auto");
-
-    
+        .style("background-size", "100% auto"); 
 
     
     //creates welcome info
     var welcomeInfo = d3.select("body")
          .append("div")
          .attr("id","welcomeInfo")
-         .style("width", (width - 38) + "px")
          .text("In the past century advances in human technology coupled with climatic change has made the formidable arctic accessible!");
          
     //creates button
@@ -68,17 +65,13 @@ function setMap () {
             .append("div")
             .attr("class", "timelineBox")
             .style("display","none")
-            .style("height", "150px")
-            /*.append("div")
-            .attr("class", "shadowBox")
-            .attr("id", "timelineBoxShadow")
-            .style("width", width + "px")
-            .style("height", "150px");*/
+            .style("height", "150px");
     
     var infoPanelBox = d3.select("body")
             .append("div")
             .attr("class", "infoPanelBox")
             .style("width", infoPanelBoxWidth + "px")
+            .style("height", mapHeight + 28 + "px")
             .style("display","none");
     
     
@@ -152,6 +145,7 @@ function setMap () {
     //use queue.js to parallelise asynchronous data loading
     queue()
         .defer(d3.json, "data/landOutline.topojson") //load attributes from topojson
+        .defer(d3.json, "data/Arctic_Countries.topojson")
         .defer(d3.json, "data/Lines.topojson")
         .defer(d3.json, "data/Points.topojson")
         .defer(d3.json, "data/Polygons.topojson")
@@ -160,7 +154,7 @@ function setMap () {
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
-    function callback(error, land, lines, points, polygons, treaties, slides) {
+    function callback(error, land, countries, lines, points, polygons, treaties, slides) {
         
         //projects the landmasses
         var landMasses = map.selectAll(".landMasses") 
@@ -172,6 +166,16 @@ function setMap () {
                 .attr("class", "landBody")
                 .attr("d", path); //project data as geometry in svg 
 
+        var countries = map.selectAll(".countries")
+                .data(topojson.feature(countries, countries.objects.Countries).features)
+                .enter()
+                .append("g")
+                .attr("class", "countries")
+                .append("path")
+                .attr("id", function (d) {return d.properties.sovereignt})
+                .attr("d", path)
+                .attr("fill", "transparent");
+        
         //projects the line events
         var eLine = map.selectAll(".eLine")
                 .data(topojson.feature(lines, lines.objects.Lines).features)
@@ -281,11 +285,17 @@ function highlight (data) {
     d3.selectAll("#" + props.EvID)
             .style("stroke-width", "5px");
     
+    var countries = props.Country;
+    var countriesInvolved = countries.split(', ');
+    console.log(countriesInvolved);
+    
+    
     //this isn't working, but it should be!
     $("#" + props.EvID).tooltip({
         content: "Hello",
         track: true
     });
+    
 
     
 
@@ -678,7 +688,7 @@ function makeEventLine () {
                             case "Denmark":
                                 y=48;
                                 break;
-                            case "United States":
+                            case "USA":
                                 y=62
                                 break;
                             case "USSR":
@@ -1093,7 +1103,7 @@ function colorize (data) { //sets the color of the label
                 case "Denmark":
                     return "rgb(166,118,29)";
                     break;
-                case "United States":
+                case "USA":
                     return "rgb(102,166,30)";
                     break;
                 case "USSR":
