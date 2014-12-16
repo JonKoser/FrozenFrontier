@@ -174,14 +174,14 @@ function setMap () {
         .defer(d3.json, "data/Lines.topojson")
         .defer(d3.json, "data/Points.topojson")
         .defer(d3.json, "data/Polygons.topojson")
-        .defer(d3.json, "data/EEZ.topojson")
+        //.defer(d3.json, "data/EEZ.topojson")
         .defer(semiColonParser, "data/treatyData.csv")
         .defer(semiColonParser, "data/introText.csv")
         //.defer(semiColonParser, "data/welcome.csv")
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
-    function callback(error, land, countries, lines, points, polygons,EEZ, treaties, slides) {
+    function callback(error, land, countries, lines, points, polygons, treaties, slides) {
 
 
         //-------------------->>>>>>>>>>>>>>>THIS IS NOT OPTIMAL<<<<<<<<<<<<------------------------------------------
@@ -296,7 +296,7 @@ function setMap () {
         //adds all events to single array (eventList)
         //also adds the years to the years array
         //put csv, polygons, and points in here also
-        addEvents(lines, points, polygons, EEZ, treaties, slides);
+        addEvents(lines, points, polygons, treaties, slides);
        
         
         //makes things
@@ -523,7 +523,7 @@ function makeTimeline (){
                 updateLines();
                 updatePoints();
                 updatePolys();
-                updateInfoPanel;
+                updateInfoPanel();
             })//end nextYear
         .text("<");   
     //add the back year button
@@ -531,6 +531,7 @@ function makeTimeline (){
         .attr("class", "Button")
         .attr("id", "nextYear")
         .on("click", function nextYear() {
+                updateInfoPanel();
                 currentYear ++;
                 var found = false; //variable to decide whether or not the year is in the list
                 while (found == false) {
@@ -550,7 +551,6 @@ function makeTimeline (){
                     }
                 } //end while loop
 
-                console.log("hi")
                 moveHandle();
                 updateYear();
                 updateLines();
@@ -938,7 +938,6 @@ function updateInfoPanel() {
             .text(description);
     d3.select("#eventName")
             .text(name);
-    console.log("why u no update");
 
 }; //end update info panel
 
