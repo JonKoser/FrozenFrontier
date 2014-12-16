@@ -174,7 +174,6 @@ function setMap () {
         .defer(d3.json, "data/Lines.topojson")
         .defer(d3.json, "data/Points.topojson")
         .defer(d3.json, "data/Polygons.topojson")
-        //.defer(d3.json, "data/EEZ.topojson")
         .defer(semiColonParser, "data/treatyData.csv")
         .defer(semiColonParser, "data/introText.csv")
         //.defer(semiColonParser, "data/welcome.csv")
@@ -285,13 +284,6 @@ function setMap () {
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
         
-       /*var allEEZ = map.selectAll(".allEEZ")
-                .data(topojson.feature(EEZ, EEZ.objects.EEZ).features)
-                .enter()
-                .append("g")
-                .attr("class", "allEEZ")
-                .append("path")
-                .attr("d", path);*/
 
         //adds all events to single array (eventList)
         //also adds the years to the years array
