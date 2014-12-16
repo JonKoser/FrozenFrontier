@@ -183,7 +183,6 @@ function setMap () {
     //retrieve and process NZ json file and data
     function callback(error, land, countries, lines, points, polygons,EEZ, treaties, slides) {
 
-        console.log(EEZ);
 
         //-------------------->>>>>>>>>>>>>>>THIS IS NOT OPTIMAL<<<<<<<<<<<<------------------------------------------
         var intro = slides;
@@ -286,12 +285,18 @@ function setMap () {
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
         
-       
+       /*var allEEZ = map.selectAll(".allEEZ")
+                .data(topojson.feature(EEZ, EEZ.objects.EEZ).features)
+                .enter()
+                .append("g")
+                .attr("class", "allEEZ")
+                .append("path")
+                .attr("d", path);*/
 
         //adds all events to single array (eventList)
         //also adds the years to the years array
         //put csv, polygons, and points in here also
-        addEvents(lines, points, polygons, treaties, slides);
+        addEvents(lines, points, polygons, EEZ, treaties, slides);
        
         
         //makes things
