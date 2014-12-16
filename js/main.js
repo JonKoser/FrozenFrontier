@@ -78,7 +78,7 @@ function setMap () {
             .attr("class", "shadowBox")
             .attr("id", "pageShadow")
             .style("width", width + "px")
-            .style("height", "1000px")
+            .style("height", "1250px")
     
     var timelineBox = d3.select("body")
             .append("div")
