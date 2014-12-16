@@ -270,7 +270,7 @@ div {
     text-decoration: none;
     position: relative;
     top: 360px;
-    left: 223px;
+    left: 210px;
 }
 
 #nextButton {
@@ -279,7 +279,7 @@ div {
     text-decoration: none;
     position: relative;
     top: 360px;
-    left: 100px;
+    left: 50px;
 }
 
 #backButton {
@@ -288,7 +288,7 @@ div {
     text-decoration: none;
     position: relative;
     top: 360px;
-    left: 15px;
+    left: -50px;
 }
 
 
@@ -307,6 +307,7 @@ div {
   top: 360px;
   width: 250px; 
   height: 198px;
+  left:10px;
 }
 
 .tick line {
