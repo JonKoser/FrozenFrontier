@@ -261,6 +261,13 @@ div {
   
 }
 
+.source {
+  position:absolute;
+  bottom: 5px;
+  font-size: 12px;
+  color: #d3d3d3;
+  right:5px;
+}
 
 #SkipButton {
     font-size: 10px;

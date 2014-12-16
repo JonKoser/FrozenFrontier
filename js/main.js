@@ -101,6 +101,10 @@ function setMap () {
             .attr("class", "displayYear")
             .text(currentYear);
 
+    mapContainer.append("text")
+            .attr("class","source")
+            .text("Information drawn from: http://www.stimson.org/infographics/evolution-of-arctic-territorial-claims-and-agreements-a-timeline-1903-present/");        
+
     /*var mapContainerShadow = d3.select(".mapContainer")
             .append("div")
             .attr("class", "shadowBox")
