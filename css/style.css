@@ -186,7 +186,7 @@ div {
 .introContainer {
     position: absolute;
     width: 269px;
-    height: 520px;
+    height: 600px;
     top: 15%;
     left: 40%;
     z-index: 9;
@@ -269,7 +269,7 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 290px;
+    top: 360px;
     left: 223px;
 }
 
@@ -278,7 +278,7 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 290px;
+    top: 360px;
     left: 100px;
 }
 
@@ -287,7 +287,7 @@ div {
     padding: 4px 8px 4px 8px;
     text-decoration: none;
     position: relative;
-    top: 290px;
+    top: 360px;
     left: 15px;
 }
 
@@ -304,7 +304,7 @@ div {
 .imageBox {
   position: relative;
   border: none;
-  top: 293px;
+  top: 360px;
   width: 250px; 
   height: 198px;
 }

@@ -43,6 +43,8 @@ function setWelcomeScreen () {
         .attr("id", "intro")
         .text(welcomeText);
 
+
+
     //creates button
     var startButton = welcomeInfo.append("span")
             .attr("class", "startButtonBox")
@@ -1079,6 +1081,9 @@ function setIntroBox () {
         .attr("onclick", "formerImg()")
         .text("Back")
         .style("color", "#d3d3d3");
+
+
+
      
 }; // end of setIntroBox
 
@@ -1091,6 +1096,11 @@ function hideIntro(){
 
         /*d3.select("#mapContainerShadow")
             .style("display","none");*/
+
+        /*d3.select("#titleContainer").append("button")
+            .attr("id", "resetButton")
+            .attr("onclick", "changeVisibility()")
+            .text("resetIntro");*/
 
 
 }; // end of hide
