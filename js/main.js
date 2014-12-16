@@ -174,13 +174,16 @@ function setMap () {
         .defer(d3.json, "data/Lines.topojson")
         .defer(d3.json, "data/Points.topojson")
         .defer(d3.json, "data/Polygons.topojson")
+        .defer(d3.json, "data/EEZ.topojson")
         .defer(semiColonParser, "data/treatyData.csv")
         .defer(semiColonParser, "data/introText.csv")
         //.defer(semiColonParser, "data/welcome.csv")
         .await(callback); //trigger callback function once data is loaded
    
     //retrieve and process NZ json file and data
-    function callback(error, land, countries, lines, points, polygons, treaties, slides) {
+    function callback(error, land, countries, lines, points, polygons,EEZ, treaties, slides) {
+
+        console.log(EEZ);
 
         //-------------------->>>>>>>>>>>>>>>THIS IS NOT OPTIMAL<<<<<<<<<<<<------------------------------------------
         var intro = slides;
