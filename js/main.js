@@ -3,11 +3,13 @@ var currentYear = 1903;
 var yearList = [];
 var eventList = [];
 var width = window.innerWidth;
+var height = window.innerHeight;
 var timelineWidth = width-140;
 var selectedEvent; //should start with the 1903 event
 var img = 0;
 var infoPanelBoxWidth = 270;
 var introSlides = [];
+var infoPanelHeight = window.innerHeight - 280;
 
 
 
@@ -67,6 +69,7 @@ function setMap () {
     var mapWidth = (width - (infoPanelBoxWidth) - 28 - 34);
     
     var mapHeight = mapWidth;
+
     
     var pageShadow = d3.select("body")
             .append("div")
@@ -85,8 +88,10 @@ function setMap () {
             .append("div")
             .attr("class", "infoPanelBox")
             .style("width", infoPanelBoxWidth + "px")
-            .style("height", mapHeight + 28 + "px")
-            .style("display","none");
+            .style("height", infoPanelHeight + "px" )
+            .style("display","none")
+            .style("background-color", "transparent")
+            .style("border", "none");
     
     
     var mapContainer = d3.select("body")
@@ -894,11 +899,13 @@ function makeInfoPanel (infoPanelBox) {
             .append("div")
             .attr("id", "accordion")
             .html("<h3 id='eventName'>Event 1</h3><div><p id='eventDescrip'></p></div>");
-    
-    $("#accordion").accordion({
-        collapsible: true,
-        heightStyle: "content"
-    });
+  
+    $(function() { 
+        $("#accordion").accordion({
+            collapsible: true, 
+            heightStyle: "fill"
+        });
+   });
     
 }; //end make info panel box
 

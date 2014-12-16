@@ -83,6 +83,7 @@ div {
 
 .infoPanelBox {
     position: fixed;
+
     /*margin-top: 5px;*/
 }
 
@@ -150,11 +151,6 @@ div {
     opacity: 0.6;
 }
 
-#accordion {
-    color: #323232;
-    margin: 5px;
-    border-radius: 10px;
-}
 
 .ePoly:hover {
     stroke: yellow;
@@ -234,15 +230,15 @@ div {
 }
 
 @-webkit-keyframes clickMe {
-  0% {left:43%;}
-  50% {left:41%;}
-  100% {left:43%;}
+  0% {left:47%;}
+  50% {left:46%;}
+  100% {left:47%;}
 }
 
 @keyframes clickMe {
-  0% {left:43%;}
-  50% {left:41%;}
-  100% {left:43%;}
+  0% {left:47%;}
+  50% {left:46%;}
+  100% {left:47%;}
 
 }
 
@@ -251,7 +247,6 @@ div {
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   position: relative;
-  margin-left: 50%;
   text-align:center;
 
   animation: clickMe 2s;
@@ -314,15 +309,15 @@ div {
   height: 198px;
 }
 
-#accordion .ui-accordion-content{
-    padding: 5px;
-    font-family: Times;
-} 
-
 .tick line {
     stroke: rgb(240, 240, 240);
     stroke-width: 3px;
 }
+
+#accordion .ui-accordion-content{
+    padding: 5px;
+    font-family: Times;
+} 
 
 
 #accordion .ui-accordion-header {
