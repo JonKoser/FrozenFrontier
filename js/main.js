@@ -10,6 +10,7 @@ var img = 0;
 var infoPanelBoxWidth = 270;
 var introSlides = [];
 var infoPanelHeight = window.innerHeight - 280;
+var currentEvents = [];
 
 
 
@@ -230,7 +231,7 @@ function setMap () {
                 .on("click", function (d) {
                     selectedEvent = d;
                     //currentYear = d.properties.startYear;
-                    updateInfoPanel();
+                    openInfoPanel(d);
                     //moveHandle();
                     //updateYear();
                     //updatePoints();
@@ -252,7 +253,7 @@ function setMap () {
                 .on("click", function (d) {
                     selectedEvent = d;
                     //currentYear = d.properties.startYear;
-                    updateInfoPanel();
+                    openInfoPanel(d);
                     //moveHandle();
                     //updateYear();
                     //updatePoints();
@@ -274,7 +275,7 @@ function setMap () {
                 .on("click", function (d) {
                     selectedEvent = d;
                     //currentYear = d.properties.startYear;
-                    updateInfoPanel();
+                    openInfoPanel(d);
                     //moveHandle();
                     //updateYear();
                     //updatePoints();
@@ -523,7 +524,6 @@ function makeTimeline (){
         .attr("class", "Button")
         .attr("id", "nextYear")
         .on("click", function nextYear() {
-                updateInfoPanel();
                 currentYear ++;
                 var found = false; //variable to decide whether or not the year is in the list
                 while (found == false) {
@@ -785,6 +785,7 @@ function makeEventLine () {
                 //update the rest of the stuff
                 moveHandle(xVal);
                 updateInfoPanel();
+                openInfoPanel(d);
                 updatePoints();
                 updateLines();
                 updatePolys();
@@ -918,34 +919,80 @@ function makeInfoPanel (infoPanelBox) {
 
 //function to update the contents of the info panel
 function updateInfoPanel() {
-    var description;
-    var name;
-    var props = selectedEvent.properties ? selectedEvent.properties : selectedEvent;
-    var currentEvents = [];
-    var string = "";
 
+    var props = selectedEvent.properties ? selectedEvent.properties : selectedEvent;
+    var string = ""; //the html string that will create the accordion
+    var ongoing = false; //detects if there is need for an ongoing events panel
+    currentEvents = []; //resets the current events array
+
+    //adds events to the current events list
     for (var i = 0; i < eventList.length; i++){
         var props2 = eventList[i].properties ? eventList[i].properties : eventList[i];
-       
+        //adds them if they started this year
         if (props2.startYear == currentYear){
             currentEvents.push(eventList[i])
         };
-
+        //there are are events ongoing this year, note that
+        if (currentYear > props2.startYear && currentYear <= props2.endYear) {
+            ongoing = true;
+        }
     }
     
+    //creates an html string to include every event that started this year in the accordion
     for (var i = 0; i<currentEvents.length; i++) {
         var props3 = currentEvents[i].properties ? currentEvents[i].properties : currentEvents[i];
-        string = string + "<h3 id='eventName'>"+props3.Name+"</h3><div><p id='eventDescrip'>"+props3.Descrip+"</p></div>"
-
-        console.log(string);
+        string = string + "<h3 class='accordionName'>"+props3.Name+"</h3><div><p class='eventDescrip'>"+props3.Descrip+"</p></div>";
     };
-
+    
+    //adds an ongoing events accordion if necessary
+    if (ongoing == true) {
+        string = string + "<h3 id='ongoingName'>Ongoing</h3><div><p id='ongoingDescrip'>In addition to new events, there were onging issues as well.</p></div>"
+    }
+    
+    //sets the string, refreshes the accordion so it appears, and closes all the tabs
     $("#accordion").html(string)
     $("#accordion").accordion("refresh")
     $("#accordion").accordion({ active: "none"});
     
 }; //end update info panel
 
+
+
+
+//-----------------------------------------------------------------------------------
+
+//opens the selected info panel accordion when an event is selected
+function openInfoPanel(data) {
+    //need to find where the given EvID 
+    //falls in the current event list then use that index
+    //to open the corresponding accordion panel with active: #
+    var dataProps = data.properties ? data.properties : data;
+    var expand; //the index of the accordion to be expanded
+    
+    //sets the index of the accordion pannel to be expanded based on its id and year
+    for (var i = 0; i < currentEvents.length; i ++) {
+        var listProps = currentEvents[i].properties ? currentEvents[i].properties : currentEvents[i];
+        
+        //if the event started this year, opens up its corresponding accordion section
+        if (dataProps.startYear == currentYear) {
+            if (dataProps.EvID == listProps.EvID) {
+                expand = i;
+            }
+        }
+        //if the event is an ongoing previous event, assigns the proper text to the ongoing accordion pannel
+        //and then assigns the expand variable to the position of the ongoing section
+        else {
+            //d3.select("#ongoingName").text(dataProps.Name);
+            d3.select("#ongoingDescrip").text(dataProps.Name + ": " + dataProps.Descrip);
+            $("#accordion").accordion("refresh");
+            expand = currentEvents.length;
+        }
+    }
+    
+    //expands the selected attribute based off the index discovered above
+    $("#accordion").accordion({ active: expand});
+    
+}; //end open info Panel
 
 
 
