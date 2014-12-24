@@ -899,13 +899,12 @@ function makeInfoPanel (infoPanelBox) {
 
     d3.select(".infoPanelBox")
             .append("div")
-            .attr("id", "accordion")
-            .html("<h3 id='eventName'>Event 1</h3><div><p id='eventDescrip'></p></div>");
-  
+            .attr("id", "accordion");  
+    
     $(function() { 
         $("#accordion").accordion({
             collapsible: true, 
-            heightStyle: "fill"
+            heightStyle: "fill",
         });
    });
     
@@ -923,9 +922,9 @@ function updateInfoPanel() {
     var name;
     var props = selectedEvent.properties ? selectedEvent.properties : selectedEvent;
     var currentEvents = [];
-    var string;
+    var string = "";
 
-    /*for (var i = 0; i < eventList.length; i++){
+    for (var i = 0; i < eventList.length; i++){
         var props2 = eventList[i].properties ? eventList[i].properties : eventList[i];
        
         if (props2.startYear == currentYear){
@@ -935,23 +934,16 @@ function updateInfoPanel() {
     }
     
     for (var i = 0; i<currentEvents.length; i++) {
-        var props2 = currentEvents[i].properties ? currentEvents[i].properties : currentEvents[i];
-        string = string+"<h3 id='eventName'>"+props2.Name+"</h3><div><p id='eventDescrip'>"+props2.Descrip+"</p></div>"
+        var props3 = currentEvents[i].properties ? currentEvents[i].properties : currentEvents[i];
+        string = string + "<h3 id='eventName'>"+props3.Name+"</h3><div><p id='eventDescrip'>"+props3.Descrip+"</p></div>"
 
-        console.log(currentEvents[i]);
+        console.log(string);
     };
 
-
-    d3.select("#accordion")
-            .html(string);*/
-
-    name = props.Name
-    description = props.Descrip
+    $("#accordion").html(string)
+    $("#accordion").accordion("refresh")
+    $("#accordion").accordion({ active: "none"});
     
-    d3.select("#eventDescrip")
-            .text(description);
-    d3.select("#eventName")
-            .text(name);
 }; //end update info panel
 
 
