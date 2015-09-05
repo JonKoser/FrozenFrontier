@@ -69,7 +69,7 @@ function setMap () {
     };
     console.log(mapWidth);*/
     
-    var mapWidth = (width - (infoPanelBoxWidth) - 28 - 34);
+    var mapWidth = (width - (infoPanelBoxWidth) - 28 - 18);
     
     var mapHeight = mapWidth;
 
@@ -79,13 +79,14 @@ function setMap () {
             .attr("class", "shadowBox")
             .attr("id", "pageShadow")
             .style("width", width + "px")
-            .style("height", "1250px")
+            .style("height", "100%")
     
     var timelineBox = d3.select("body")
             .append("div")
             .attr("class", "timelineBox")
             .style("display","none")
-            .style("height", "150px");
+            .style("height", "150px")
+            .style("padding", "5px");
     
     var infoPanelBox = d3.select("body")
             .append("div")
@@ -107,18 +108,8 @@ function setMap () {
     
     mapContainer.append("text")
             .attr("class", "displayYear")
-            .text(currentYear);
+            .text(currentYear);       
 
-    mapContainer.append("text")
-            .attr("class","source")
-            .text("Information drawn from: http://www.stimson.org/infographics/evolution-of-arctic-territorial-claims-and-agreements-a-timeline-1903-present/");        
-
-    /*var mapContainerShadow = d3.select(".mapContainer")
-            .append("div")
-            .attr("class", "shadowBox")
-            .attr("id", "mapContainerShadow")
-            .style("width", mapWidth+28 + "px")
-            .style("height", mapHeight+28+"px");*/
     
     //create a new svg element with the above dimensions
     var map = d3.select(".mapContainer")
@@ -180,7 +171,7 @@ function setMap () {
         //.defer(semiColonParser, "data/welcome.csv")
         .await(callback); //trigger callback function once data is loaded
    
-    //retrieve and process NZ json file and data
+    //retrieve and process json file and data
     function callback(error, land, countries, lines, points, polygons, treaties, slides) {
 
 
@@ -230,13 +221,8 @@ function setMap () {
                 .attr("d", path)
                 .on("click", function (d) {
                     selectedEvent = d;
-                    //currentYear = d.properties.startYear;
                     openInfoPanel(d);
-                    //moveHandle();
-                    //updateYear();
-                    //updatePoints();
-                    //updateLines();
-                    //updatePolys();
+
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -252,13 +238,7 @@ function setMap () {
                 .attr("d", path)
                 .on("click", function (d) {
                     selectedEvent = d;
-                    //currentYear = d.properties.startYear;
                     openInfoPanel(d);
-                    //moveHandle();
-                    //updateYear();
-                    //updatePoints();
-                    //updateLines();
-                    //updatePolys();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -274,13 +254,7 @@ function setMap () {
                 .attr("d", path)
                 .on("click", function (d) {
                     selectedEvent = d;
-                    //currentYear = d.properties.startYear;
                     openInfoPanel(d);
-                    //moveHandle();
-                    //updateYear();
-                    //updatePoints();
-                    //updateLines();
-                    //updatePolys();
                 })
                 .on("mouseover", highlight)
                 .on("mouseout", dehighlight);
@@ -308,9 +282,33 @@ function setMap () {
     };//end callback
 
 
+    //append footer div
+    d3.select("body")
+        .append("div")
+        .attr("class", "footer")
+        .style("height", "25px")
+        .style("display", "none");
     
+    //append credits
+    d3.select(".footer")
+        .append("text")
+        .attr("class", "source")
+        .text("Website built by Jon Koser, Roar Engle, and Brandon Kutsch");
+    
+    //append the information source citation    
+    d3.select(".footer")
+        .append("span")
+        .attr("class","source")
+        .text("Information drawn from: ")
+        .style("float", "right")
+        .append("a")
+        .attr("class", "link")
+        .attr("href", "http://www.stimson.org/infographics/evolution-of-arctic-territorial-claims-and-agreements-a-timeline-1903-present/")
+        .html(" Stimson.org")
+        .style("float", "right");     
     
 };// end setMap
+
 
 
 
@@ -343,7 +341,7 @@ function highlight (data) {
     console.log(countriesInvolved);
     
     
-    //this isn't working, but it should be!
+    //this isn't working, but it should be! It's a tooltip
     $("#" + props.EvID).tooltip({
         content: "Hello",
         track: true
@@ -412,7 +410,7 @@ function updateLines() {
 
 //-----------------------------------------------------------------------------------
 
-//function to update which lines are being displayed
+//function to update which points are being displayed
 function updatePoints() {
     var points = d3.selectAll(".ePoint")
             .style("fill", function (d) { 
@@ -438,7 +436,7 @@ function updatePoints() {
 //-----------------------------------------------------------------------------------
 
 
-//function to update which lines are being displayed
+//function to update which polygons are being displayed
 function updatePolys() {
     var polys = d3.selectAll(".ePoly")
             .style("fill", function (d) { 
@@ -596,7 +594,7 @@ function makeTimeline (){
             .attr("class", "handle")
             .attr("r", 7);
         
-    //stuff
+    //stuff I got from the web
     slider.call(brush.event)
             .transition() //gratuitous intro!
             .duration(750)
@@ -963,6 +961,7 @@ function updateInfoPanel() {
 
 //opens the selected info panel accordion when an event is selected
 function openInfoPanel(data) {
+
     //need to find where the given EvID 
     //falls in the current event list then use that index
     //to open the corresponding accordion panel with active: #
@@ -970,27 +969,37 @@ function openInfoPanel(data) {
     var expand; //the index of the accordion to be expanded
     
     //sets the index of the accordion pannel to be expanded based on its id and year
-    for (var i = 0; i < currentEvents.length; i ++) {
-        var listProps = currentEvents[i].properties ? currentEvents[i].properties : currentEvents[i];
-        
-        //if the event started this year, opens up its corresponding accordion section
-        if (dataProps.startYear == currentYear) {
-            if (dataProps.EvID == listProps.EvID) {
-                expand = i;
+    if (currentEvents.length > 0) {
+        for (var i = 0; i < currentEvents.length; i ++) {
+            var listProps = currentEvents[i].properties ? currentEvents[i].properties : currentEvents[i];
+
+            //if the event started this year, opens up its corresponding accordion section
+            if (dataProps.startYear == currentYear) {
+                if (dataProps.EvID == listProps.EvID) {
+                    expand = i;
+                }
             }
-        }
-        //if the event is an ongoing previous event, assigns the proper text to the ongoing accordion pannel
-        //and then assigns the expand variable to the position of the ongoing section
-        else {
-            //d3.select("#ongoingName").text(dataProps.Name);
-            d3.select("#ongoingDescrip").text(dataProps.Name + ": " + dataProps.Descrip);
-            $("#accordion").accordion("refresh");
-            expand = currentEvents.length;
+            
+            //if the event is an ongoing previous event, assigns the proper text to the ongoing accordion pannel
+            //and then assigns the expand variable to the position of the ongoing section
+            else {
+                updateOngoingDescrip(dataProps);
+                expand = currentEvents.length;
+            }
         }
     }
     
+    //for any year which only has ongoing events, not current events
+    else {
+        updateOngoingDescrip(dataProps);
+        expand = 0;
+    }
+    
+
+    
     //expands the selected attribute based off the index discovered above
     $("#accordion").accordion({ active: expand});
+    
     
 }; //end open info Panel
 
@@ -998,7 +1007,13 @@ function openInfoPanel(data) {
 
 //-----------------------------------------------------------------------------------
 
-
+//updates the ongoing event description
+function updateOngoingDescrip(ongoingProps) {
+    
+    d3.select("#ongoingDescrip").text(ongoingProps.Name + ": " + ongoingProps.Descrip);
+    $("#accordion").accordion("refresh");
+    
+}; //end update ongoing descrip
 
 
 //button functionality, at this moment only goes from welcome screen to map. Also trying to get transitions to work.
@@ -1015,6 +1030,8 @@ function changeVisibility() {
         .style("display","none");
     d3.select("#startButton")
         .style("display", "none");
+    d3.select(".footer")
+        .style("display", "block");
     setIntroBox();
     d3.select("#titleContainer")
         .style("top","5px")
@@ -1068,13 +1085,6 @@ function addEvents(lines, points, polygons, treaties, slides) {
         //adds the year to the year list
         yearList.push(Number(treatyEvents[i].startYear));   
     }
-
-    
-    
-    
-    //should this be here?
-
-    
     
     
     
@@ -1152,14 +1162,6 @@ function hideIntro(){
 
         d3.select(".shadowBox")
             .style("display","none");
-
-        /*d3.select("#mapContainerShadow")
-            .style("display","none");*/
-
-        /*d3.select("#titleContainer").append("button")
-            .attr("id", "resetButton")
-            .attr("onclick", "changeVisibility()")
-            .text("resetIntro");*/
 
 
 }; // end of hide

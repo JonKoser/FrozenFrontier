@@ -33,6 +33,10 @@ div {
     background-color: rgb(30, 30, 30);
 }
 
+.link {
+    color: rgb(50, 125, 190);
+}
+
 .event {
     stroke-width: 2.5;
     cursor: pointer;
@@ -178,7 +182,7 @@ div {
 #welcomeInfo {
     padding: 10px;
     background-color: #323232;
-    color: #828281;
+    color: rgb(210, 210, 210);
     position: relative;
     z-index: 10;
     top:345px;
@@ -248,21 +252,22 @@ div {
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   position: relative;
-  text-align:center;
+  text-align: center;
+  left: 46%;
 
+  /*/*sorry, Roar, I'm really not a fan of this so I took it out. You can add it back whenever you want though
   animation: clickMe 2s;
   animation-iteration-count: infinite;
   -webkit-animation:clickMe 2s;
-  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;*/
   
 }
 
 .source {
-  position:absolute;
-  bottom: 5px;
+  position: relative;
   font-size: 12px;
   color: #d3d3d3;
-  right:5px;
+  padding: 5px;
 }
 
 #SkipButton {
