@@ -7,7 +7,7 @@ var height = window.innerHeight;
 var timelineWidth = width-140;
 var selectedEvent; //should start with the 1903 event
 var img = 0;
-var infoPanelBoxWidth = 270;
+var infoPanelBoxWidth = 400;//270;
 var introSlides = [];
 var infoPanelHeight = window.innerHeight - 280;
 var currentEvents = [];
@@ -104,10 +104,12 @@ function setMap () {
             .style("width", mapWidth + 28 + "px")
             .style("height", mapHeight + 28 + "px")
             .style("left", infoPanelBoxWidth + "px")
-            .style("display","none");
+            .style("display","none")
     
     mapContainer.append("text")
             .attr("class", "displayYear")
+            .style("position","relative")
+            .style("float","right")
             .text(currentYear);       
 
     
@@ -279,33 +281,7 @@ function setMap () {
         updateInfoPanel();
 
 
-    };//end callback
-
-
-    //append footer div
-    d3.select("body")
-        .append("div")
-        .attr("class", "footer")
-        .style("height", "25px")
-        .style("display", "none");
-    
-    //append credits
-    d3.select(".footer")
-        .append("text")
-        .attr("class", "source")
-        .text("Website built by Jon Koser, Roar Engle, and Brandon Kutsch");
-    
-    //append the information source citation    
-    d3.select(".footer")
-        .append("span")
-        .attr("class","source")
-        .text("Information drawn from: ")
-        .style("float", "right")
-        .append("a")
-        .attr("class", "link")
-        .attr("href", "http://www.stimson.org/infographics/evolution-of-arctic-territorial-claims-and-agreements-a-timeline-1903-present/")
-        .html(" Stimson.org")
-        .style("float", "right");     
+    };//end callback  
     
 };// end setMap
 
@@ -1030,12 +1006,9 @@ function changeVisibility() {
         .style("display","none");
     d3.select("#startButton")
         .style("display", "none");
-    d3.select(".footer")
-        .style("display", "block");
     setIntroBox();
     d3.select("#titleContainer")
         .style("top","5px")
-        .style("text-align","left");
 }; //end changeVisibility
 
 
