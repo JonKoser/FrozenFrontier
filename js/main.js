@@ -85,8 +85,7 @@ function setMap () {
             .append("div")
             .attr("class", "timelineBox")
             .style("display","none")
-            .style("height", "150px")
-            .style("padding", "5px");
+            .style("height", "150px");
     
     var infoPanelBox = d3.select("body")
             .append("div")
@@ -101,8 +100,8 @@ function setMap () {
     var mapContainer = d3.select("body")
             .append("div")
             .attr("class", "mapContainer")
-            .style("width", mapWidth + 28 + "px")
-            .style("height", mapHeight + 28 + "px")
+            .style("width", mapWidth + 10 + "px")
+            .style("height", mapHeight + 10 + "px")
             .style("left", infoPanelBoxWidth + "px")
             .style("display","none")
     
